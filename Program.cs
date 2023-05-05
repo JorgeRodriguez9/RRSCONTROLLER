@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using RRSCONTROLLER.DAL;
+
 namespace RRSCONTROLLER
 {
     public class Program
@@ -9,8 +12,8 @@ namespace RRSCONTROLLER
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-           // builder.Services.AddDbContext<PiggyBankContext>(options =>
-           // options.UseSqlServer(builder.Configuration.GetConnectionString("Conn")));
+           builder.Services.AddDbContext<RSSCONTROLLERContext>(options =>
+           options.UseSqlServer(builder.Configuration.GetConnectionString("Conn")));
 
             var app = builder.Build();
 
