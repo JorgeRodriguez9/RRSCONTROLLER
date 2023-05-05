@@ -34,7 +34,7 @@ namespace RRSCONTROLLER.Controllers
 
                     if (role == 2)
                     {
-                        return RedirectToAction("ProductRegister", "AdminPae");
+                        return RedirectToAction("HomeAdministrator", "AdminPae");
                     }
                     if (role == 3)
                     {
@@ -51,7 +51,7 @@ namespace RRSCONTROLLER.Controllers
         {
             try
             {
-                using(SqlConnection conn = new("Server= CARLOS_RAMOS\\SQLEXPRESS;Database=RRSCONTROLLER;TrustServerCertificate=True;Integrated Security=True"))
+                using(SqlConnection conn = new("Server= DESKTOP-RLL2AP6\\SQLEXPRESS;Database=RRSCONTROLLER;TrustServerCertificate=True;Integrated Security=True"))
                 {
                     using (SqlCommand cmd = new("sp_validar_usuario", conn))
                     {
@@ -88,7 +88,7 @@ namespace RRSCONTROLLER.Controllers
 
                                 if (a == 2)
                                 {
-                                    return RedirectToAction("ProductRegister", "AdminPae");
+                                    return RedirectToAction("HomeAdministrator", "AdminPae");
                                 }
                                 if (a == 3)
                                 {
