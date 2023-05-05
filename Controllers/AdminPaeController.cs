@@ -1,34 +1,43 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RRSCONTROLLER.DAL;
 using RRSCONTROLLER.Models;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace RRSCONTROLLER.Controllers
 {
+
+    [Authorize]
     public class AdminPaeController : Controller
     {
+        private readonly ILogger<AdminPaeController> _logger;
 
         private readonly RSSCONTROLLERContext _context;
 
-        public AdminPaeController(RSSCONTROLLERContext context)
+        public AdminPaeController(RSSCONTROLLERContext context, ILogger<AdminPaeController> logger)
         {
             _context = context;
+            _logger = logger;
         }
         // GET: AdminPaeController
-        public ActionResult Index()
+
+        public IActionResult Index()
         {
             return View();
         }
 
-        // GET: AdminPaeController/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Exit()
         {
-            return View();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: AdminPaeController/Create
-        public ActionResult ProductRegister()
+        public IActionResult ProductRegister()
         {
 
             var suppliers = _context.SUPPLIERS.ToList();
@@ -88,47 +97,12 @@ namespace RRSCONTROLLER.Controllers
             return RedirectToAction("ProductRegister");
         }
 
-        // GET: AdminPaeController/Edit/5
-        public ActionResult Edit(int id)
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
         {
-            return View();
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        // POST: AdminPaeController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: AdminPaeController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: AdminPaeController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
 
