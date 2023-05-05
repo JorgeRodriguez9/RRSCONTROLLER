@@ -1,0 +1,40 @@
+﻿@model RRS_Controller.Models.INSTITUTION
+@{
+    ViewData["Title"] = "Register Institution";
+}
+
+<h1>Register</h1>
+
+<div class="text-center">
+    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" />
+</div>
+
+<h4>Institution</h4>
+<hr />
+<form asp-action="Register">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Name" class="control-label ml-2"></label>
+        <input asp-for="Name" class="form-control col-5 mx-auto" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Document" class="control-label ml-2"></label>
+        <input asp-for="Document" class="form-control col-5 mx-auto" />
+        <span asp-validation-for="Document" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Phone_Number" class="control-label ml-2"></label>
+        <input asp-for="Phone_Number" class="form-control col-5 mx-auto" />
+        <span asp-validation-for="Phone_Number" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label ml-2"></label>
+        <input asp-for="Email" class="form-control col-5 mx-auto" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+</form>
+<button type="button" class="btn btn-light mx-auto">REGISTER</button>
+<div>
+    <a asp-action="HomeManagerPAE">Back to View</a>
+</div>

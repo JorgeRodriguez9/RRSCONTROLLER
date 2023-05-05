@@ -1,0 +1,21 @@
+﻿<div class="top_Title">
+    @{
+        ViewData["Title"] = "Home Manager PAE";
+    }
+</div>
+
+<h3>@ViewData["Title"] </h3>
+
+<div class="text-center">
+    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" />
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col d-flex top_separationbutton1">
+            <a asp-action="RegisterInstitution" asp-controller="Manager" class="btn btn-light mx-auto">REGISTER INSTITUTION</a>
+            <a asp-action="Reports" asp-controller="Manager" class="btn btn-light mx-auto ml-2">SHIPPING</a>
+        </div>
+    </div>
+</div>
+
