@@ -12,8 +12,8 @@ using RRSCONTROLLER.DAL;
 namespace RRSCONTROLLER.Migrations
 {
     [DbContext(typeof(RSSCONTROLLERContext))]
-    [Migration("20230505001841_migracion")]
-    partial class migracion
+    [Migration("20230505032856_migrationI")]
+    partial class migrationI
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -645,12 +645,10 @@ namespace RRSCONTROLLER.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name_User")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RRSCONTROLLER.Migrations
 {
     /// <inheritdoc />
-    public partial class migracion : Migration
+    public partial class migrationI : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -69,8 +69,8 @@ namespace RRSCONTROLLER.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name_User = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Name_User = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Id_Role = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

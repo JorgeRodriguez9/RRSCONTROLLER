@@ -642,12 +642,10 @@ namespace RRSCONTROLLER.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name_User")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
