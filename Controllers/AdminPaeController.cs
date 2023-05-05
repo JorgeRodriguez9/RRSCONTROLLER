@@ -30,6 +30,11 @@ namespace RRSCONTROLLER.Controllers
             return View();
         }
 
+        public IActionResult HomeAdministrator()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> Exit()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
