@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using RRS_Controller.DAL;
-using RRS_Controller.Models;
+using RRSCONTROLLER.DAL;
+using RRSCONTROLLER.Models;
 using System.Security.Claims;
 
-namespace RRS_Controller.Controllers
+namespace RRSCONTROLLER.Controllers
 {
     public class AccountController : Controller
     {

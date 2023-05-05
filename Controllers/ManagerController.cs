@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace RRS_Controller.Controllers
+namespace RRSCONTROLLER.Controllers
 {
     public class ManagerController : Controller
     {
