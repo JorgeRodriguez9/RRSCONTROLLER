@@ -11,10 +11,13 @@ namespace RRSCONTROLLER.Models
         public int ID { get; set; }
 
         [StringLength(30)]
-        public string Name_User { get; set; }
+        public string? Name_User { get; set; }
 
         [StringLength(20)]
-        public string Password { get; set; }
+        public string? Password { get; set; }
+
+        [NotMapped]
+        public bool MaintainActive { get; set; }
 
         public int Id_Role { get; set; }
         [ForeignKey("Id_Role")]
