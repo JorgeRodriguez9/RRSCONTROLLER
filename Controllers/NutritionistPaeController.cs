@@ -1,10 +1,27 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RRSCONTROLLER.DAL;
 
 namespace RRSCONTROLLER.Controllers
 {
+
+    [Authorize]
+
     public class NutritionistPaeController : Controller
     {
+
+        private readonly ILogger<NutritionistPaeController> _logger;
+
+        private readonly RSSCONTROLLERContext _context;
+
+        public NutritionistPaeController(RSSCONTROLLERContext context, ILogger<NutritionistPaeController> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
 
         public IActionResult HomeNutritionistPae()
         {
@@ -57,6 +74,12 @@ namespace RRSCONTROLLER.Controllers
             {
                 return View();
             }
+        }
+
+        public async Task<IActionResult> Exit()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: NutritionistPaeController/Edit/5

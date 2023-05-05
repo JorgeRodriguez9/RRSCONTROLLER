@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using RRSCONTROLLER.DAL;
 using RRSCONTROLLER.Models;
 using System.Security.Claims;
+
 
 namespace RRSCONTROLLER.Controllers
 {
@@ -24,7 +26,22 @@ namespace RRSCONTROLLER.Controllers
             if (c.Identity != null)
             {
                 if (c.Identity.IsAuthenticated)
-                    return RedirectToAction("Index", "Home");
+                {
+
+                    string userName = HttpContext.Session.GetString("UserName");
+
+                    var role = _context.USERS.FirstOrDefault(p => p.Name_User == userName).Id_Role;
+
+                    if (role == 2)
+                    {
+                        return RedirectToAction("ProductRegister", "AdminPae");
+                    }
+                    if (role == 3)
+                    {
+                        return RedirectToAction("HomeNutritionistPae", "NutritionistPae");
+                    }
+
+                }
             }
             return View();
         }
@@ -34,7 +51,7 @@ namespace RRSCONTROLLER.Controllers
         {
             try
             {
-                using(SqlConnection conn = new())
+                using(SqlConnection conn = new("Server= CARLOS_RAMOS\\SQLEXPRESS;Database=RRSCONTROLLER;TrustServerCertificate=True;Integrated Security=True"))
                 {
                     using (SqlCommand cmd = new("sp_validar_usuario", conn))
                     {
@@ -45,10 +62,11 @@ namespace RRSCONTROLLER.Controllers
                         var dr = cmd.ExecuteReader();
                         while (dr.Read())
                         {
-                            if (dr["UserName"] != null && u.Name_User != null)
+                            if (dr["Name_User"] != null && u.Name_User != null)
                             {
                                 List<Claim> c = new List<Claim>();
                                 {
+                                    c.Add(new Claim(ClaimTypes.Name, u.Name_User));
                                     new Claim(ClaimTypes.NameIdentifier, u.Name_User);
                                 }
                                 ClaimsIdentity ci = new(c, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -63,7 +81,21 @@ namespace RRSCONTROLLER.Controllers
                                     p.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1);
 
                                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(ci), p);
-                                return RedirectToAction("Index", "Home");
+
+                                HttpContext.Session.SetString("UserName", u.Name_User);
+
+                                var a = _context.USERS.FirstOrDefault(p => p.Name_User == u.Name_User).Id_Role;
+
+                                if (a == 2)
+                                {
+                                    return RedirectToAction("ProductRegister", "AdminPae");
+                                }
+                                if (a == 3)
+                                {
+                                    return RedirectToAction("HomeNutritionistPae", "NutritionistPae");
+                                }
+
+                               
                             }
                             else
                             {
