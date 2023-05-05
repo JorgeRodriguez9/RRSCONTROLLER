@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using RRSCONTROLLER.DAL;
 using RRSCONTROLLER.Models;
 
-namespace RRS_Controller.Controllers
+namespace RRSCONTROLLER.Controllers
 {
     public class AdminPaeController : Controller
     {
