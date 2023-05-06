@@ -653,6 +653,10 @@ namespace RRSCONTROLLER.Migrations
 
                     b.HasIndex("Id_Role");
 
+                    b.HasIndex("Name_User")
+                        .IsUnique()
+                        .HasFilter("[Name_User] IS NOT NULL");
+
                     b.ToTable("USERS");
                 });
 

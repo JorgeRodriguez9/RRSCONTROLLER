@@ -51,7 +51,7 @@ namespace RRSCONTROLLER.Controllers
         {
             try
             {
-                using(SqlConnection conn = new("Server= DESKTOP-RLL2AP6\\SQLEXPRESS;Database=RRSCONTROLLER;TrustServerCertificate=True;Integrated Security=True"))
+                using(SqlConnection conn = new("Server= CARLOS_RAMOS\\SQLEXPRESS;Database=RRSCONTROLLER;Database=RRSCONTROLLER;TrustServerCertificate=True;Integrated Security=True"))
                 {
                     using (SqlCommand cmd = new("sp_validar_usuario", conn))
                     {

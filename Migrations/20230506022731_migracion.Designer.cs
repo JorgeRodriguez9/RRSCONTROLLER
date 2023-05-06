@@ -12,7 +12,7 @@ using RRSCONTROLLER.DAL;
 namespace RRSCONTROLLER.Migrations
 {
     [DbContext(typeof(RSSCONTROLLERContext))]
-    [Migration("20230505193827_migracion")]
+    [Migration("20230506022731_migracion")]
     partial class migracion
     {
         /// <inheritdoc />
@@ -655,6 +655,10 @@ namespace RRSCONTROLLER.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("Id_Role");
+
+                    b.HasIndex("Name_User")
+                        .IsUnique()
+                        .HasFilter("[Name_User] IS NOT NULL");
 
                     b.ToTable("USERS");
                 });
