@@ -12,6 +12,9 @@ namespace RRSCONTROLLER.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<USER>().HasIndex(u => u.Name_User).IsUnique();
+
             modelBuilder.Entity<NUTRITIONITS_INTS>()
              .HasOne(n => n.INSTITUTION)
              .WithMany(i => i.NUTRITIONITS_INTSs)

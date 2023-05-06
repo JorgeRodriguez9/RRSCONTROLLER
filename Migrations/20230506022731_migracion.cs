@@ -634,6 +634,13 @@ namespace RRSCONTROLLER.Migrations
                 name: "IX_USERS_Id_Role",
                 table: "USERS",
                 column: "Id_Role");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_USERS_Name_User",
+                table: "USERS",
+                column: "Name_User",
+                unique: true,
+                filter: "[Name_User] IS NOT NULL");
         }
 
         /// <inheritdoc />

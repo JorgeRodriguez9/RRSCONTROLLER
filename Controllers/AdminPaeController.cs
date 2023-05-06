@@ -44,7 +44,6 @@ namespace RRSCONTROLLER.Controllers
         // GET: AdminPaeController/Create
         public IActionResult ProductRegister()
         {
-
             var suppliers = _context.SUPPLIERS.ToList();
             var units = _context.UNITS.ToList();
 
@@ -70,22 +69,24 @@ namespace RRSCONTROLLER.Controllers
 
         // POST: AdminPaeController/Create
         [HttpPost]
-        public async Task<IActionResult> ProductRegister(string nombre, string supplierId, string unitId)
+        public async Task<IActionResult> ProductRegister(string name, string supplierId, string unitId)
         {
 
-
+            string userName = HttpContext.Session.GetString("UserName");
+            var user = _context.USERS.FirstOrDefault(p => p.Name_User == userName).ID;
             var supplier = _context.SUPPLIERS.FirstOrDefault(p => p.Name == supplierId);
             var unit = _context.UNITS.FirstOrDefault(p => p.Name_Unit == unitId);
+            var admin = _context.ADMIN_PAEs.FirstOrDefault(p => p.Id_User == user).ID;
 
             if (supplier != null && unit != null)
             {
 
                 var product = new PRODUCT
                 {
-                    Name = nombre,
+                    Name = name,
                     Id_Supplier = supplier.ID,
                     Id_Unit = unit.ID,
-                    Id_Admin_Pae = 1
+                    Id_Admin_Pae = admin
                 };
 
                 _context.PRODUCTS.Add(product);
