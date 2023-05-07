@@ -3,38 +3,43 @@
     ViewData["Title"] = "Register Institution";
 }
 
-<h1>Register</h1>
-
 <div class="text-center">
-    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" />
+    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" style="width: 55%;" />
 </div>
-
-<h4>Institution</h4>
-<hr />
-<form asp-action="Register">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<br />
+<br />
+<form asp-controller="Manager" asp-action="RegisterInstitution" method="post">
     <div class="form-group">
-        <label asp-for="Name" class="control-label ml-2"></label>
-        <input asp-for="Name" class="form-control col-5 mx-auto" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+        <label for="name" class="font-weight-bold text-center">Name:</label>
+        <input type="text" name="name" class="form-control col-5 mx-auto" />
     </div>
     <div class="form-group">
-        <label asp-for="Adress" class="control-label ml-2"></label>
-        <input asp-for="Adress" class="form-control col-5 mx-auto" />
-        <span asp-validation-for="Adress" class="text-danger"></span>
+        <label for="adress" class="font-weight-bold text-center">Adress:</label>
+        <input type="text" name="adress" class="form-control col-5 mx-auto" />
     </div>
     <div class="form-group">
-        <label asp-for="Phone_Number" class="control-label ml-2"></label>
-        <input asp-for="Phone_Number" class="form-control col-5 mx-auto" />
-        <span asp-validation-for="Phone_Number" class="text-danger"></span>
+        <label for="numberPhone" class="font-weight-bold text-center">Number Phone:</label>
+        <input type="text" name="numberPhone" class="form-control col-5 mx-auto" />
     </div>
     <div class="form-group">
-        <label asp-for="Email" class="control-label ml-2"></label>
-        <input asp-for="Email" class="form-control col-5 mx-auto" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+        <label for="email" class="font-weight-bold text-center">E-mail:</label>
+        <input type="text" name="email" class="form-control col-5 mx-auto" />
     </div>
+    <br />
+    <button type="submit" class="btn btn-primary mx-auto d-block">Register</button>
 </form>
-<button type="button" class="btn btn-light mx-auto">REGISTER</button>
-<div>
-    <a asp-action="HomeManagerPAE">Back to View</a>
-</div>
+<br />
+<br />
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}

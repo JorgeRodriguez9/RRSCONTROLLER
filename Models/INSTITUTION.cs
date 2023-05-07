@@ -15,7 +15,7 @@ namespace RRSCONTROLLER.Models
         [StringLength(30)]
         public string Adress { get; set; }
 
-        public int Phone_Number { get; set; }
+        public long Phone_Number { get; set; }
 
         [StringLength(50)]
         public string Email { get; set; }
