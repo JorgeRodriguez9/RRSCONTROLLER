@@ -15,6 +15,8 @@ namespace RRSCONTROLLER.Controllers
     {
         private readonly RSSCONTROLLERContext _context;
 
+        public static string Var;
+
         public AccountController(RSSCONTROLLERContext context)
         {
             _context = context;
@@ -28,10 +30,14 @@ namespace RRSCONTROLLER.Controllers
                 if (c.Identity.IsAuthenticated)
                 {
 
-                    string userName = HttpContext.Session.GetString("UserName");
+                    string userName = HttpContext.Session.GetString("UserName") ?? Var;
 
                     var role = _context.USERS.FirstOrDefault(p => p.Name_User == userName).Id_Role;
 
+                    if (role == 1)
+                    {
+                        return RedirectToAction("HomeManagerPAE", "Manager");
+                    }
                     if (role == 2)
                     {
                         return RedirectToAction("HomeAdministrator", "AdminPae");
@@ -76,9 +82,9 @@ namespace RRSCONTROLLER.Controllers
                                 p.IsPersistent = u.MaintainActive;
 
                                 if (!u.MaintainActive)
-                                    p.ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(1);
+                                    p.ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(5);
                                 else
-                                    p.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1);
+                                    p.ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(50);
 
                                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(ci), p);
 
@@ -86,6 +92,12 @@ namespace RRSCONTROLLER.Controllers
 
                                 var a = _context.USERS.FirstOrDefault(p => p.Name_User == u.Name_User).Id_Role;
 
+                                Var = u.Name_User;
+
+                                if (a == 1)
+                                {
+                                    return RedirectToAction("HomeManagerPAE", "Manager");
+                                }
                                 if (a == 2)
                                 {
                                     return RedirectToAction("HomeAdministrator", "AdminPae");

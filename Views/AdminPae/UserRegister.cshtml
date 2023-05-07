@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "User Register";
+}
+<div class="text-center">
+    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" style="width: 55%;" />
+</div>
+<br />
+<br />
+<form asp-controller="AdminPae" asp-action="UserRegister" method="post">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label for="name" class="font-weight-bold text-center">Name:</label>
+                <input type="text" name="name" class="form-control col-5 mx-auto" />
+            </div>
+            <div class="form-group">
+                <label for="lastName" class="font-weight-bold text-center">Last Name:</label>
+                <input type="text" name="lastName" class="form-control col-5 mx-auto" />
+            </div>
+            <div class="form-group">
+                <label for="adress" class="font-weight-bold text-center">Adress:</label>
+                <input type="text" name="adress" class="form-control col-5 mx-auto" />
+            </div>
+            <div class="form-group">
+                <label for="document" class="font-weight-bold text-center">Document:</label>
+                <input type="text" name="document" class="form-control col-5 mx-auto" />
+            </div>
+            <div class="form-group">
+                <label for="user" class="font-weight-bold text-center">User:</label>
+                <input type="text" name="user" class="form-control col-5 mx-auto" />
+            </div>
+            <div class="form-group">
+                <label for="password" class="font-weight-bold text-center">Password:</label>
+                <input type="text" name="password" class="form-control col-5 mx-auto" />
+            </div>
+            <div class="form-group">
+                <label for="email" class="font-weight-bold text-center">E-mail:</label>
+                <input type="text" name="email" class="form-control col-5 mx-auto" />
+            </div>
+        </div>
+        <div class="col">
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <div class="form-group">
+                <label for="roleId" class="font-weight-bold text-center">Role:</label>
+                <select name="roleId" class="form-control col-5 mx-auto">
+                    <option value="">Select a role</option>
+                    @if (ViewBag.role != null)
+                    {
+                        @foreach (var item in ViewBag.role)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="instId" class="font-weight-bold text-center">Institution:</label>
+                <select name="instId" class="form-control col-5 mx-auto">
+                    <option value="">Select a institution</option>
+                    @if (ViewBag.inst != null)
+                    {
+                        @for (int i = ViewBag.cero; i < ViewBag.inst.Count; i++)
+                        {
+                            <option value="@ViewBag.inst[i].Text">@ViewBag.inst[i].Text</option>
+                        }
+                    }
+                </select>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary mx-auto d-block">Register</button>
+        </div>
+    </div>
+</form>
+<br />
+<br />
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}

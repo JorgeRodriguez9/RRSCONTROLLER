@@ -116,5 +116,16 @@ namespace RRSCONTROLLER.DAL
         public DbSet<UNIT> UNITS { get; set; }
         public DbSet<USER> USERS { get; set; }
 
+        //ENUM CLASS TO AVOID HARDCODING
+        public enum DiccionaryB
+        {
+            X,
+            A,
+            B,
+            C,
+            D,
+            E
+        }
+
     }
 }

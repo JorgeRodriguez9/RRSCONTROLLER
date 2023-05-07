@@ -12,8 +12,8 @@ using RRSCONTROLLER.DAL;
 namespace RRSCONTROLLER.Migrations
 {
     [DbContext(typeof(RSSCONTROLLERContext))]
-    [Migration("20230506022731_migracion")]
-    partial class migracion
+    [Migration("20230506043631_migracion1")]
+    partial class migracion1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -201,8 +201,8 @@ namespace RRSCONTROLLER.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("Phone_Number")
-                        .HasColumnType("int");
+                    b.Property<long>("Phone_Number")
+                        .HasColumnType("bigint");
 
                     b.HasKey("ID");
 

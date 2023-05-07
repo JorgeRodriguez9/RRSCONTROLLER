@@ -198,8 +198,8 @@ namespace RRSCONTROLLER.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("Phone_Number")
-                        .HasColumnType("int");
+                    b.Property<long>("Phone_Number")
+                        .HasColumnType("bigint");
 
                     b.HasKey("ID");
 
