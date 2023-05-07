@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RRSCONTROLLER.DAL;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace RRSCONTROLLER.Controllers
 {
@@ -33,9 +34,47 @@ namespace RRSCONTROLLER.Controllers
             return View();
         }
 
-        public IActionResult createFood()
+        public IActionResult CreateFood()
         {
+            var unitsList = new List<string>();
+            var producs = _context.PRODUCTS.ToList();
+            var producList = producs.Select(p => new SelectListItem
+            {
+                Value = p.ID.ToString(),
+                Text = p.Name
+            }).ToList();
+            ViewBag.Complete = producList ?? new List<SelectListItem>();
+            for (int i = 0; i < producList.Count; i++)
+            {
+                var products = _context.PRODUCTS.ToList();
+                var filteredRoles = products.FirstOrDefault
+                    (r => r.Name == producList[i].Text).Id_Unit;
+                var unit = _context.UNITS.FirstOrDefault(u => u.ID == filteredRoles).Name_Unit;
+                unitsList.Add(unit);
+            }
+            ViewBag.units = unitsList;
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateFood(string name, List<string> selectedFoods, List<string> amount4)
+        {
+
+            ViewBag.name = name;
+            ViewBag.Food = selectedFoods;
+            ViewBag.Amount = amount4;
+            List<string> amount = new List<string>();
+            for (int i = 0; i < selectedFoods.Count; i++)
+            {
+                var products = _context.PRODUCTS.ToList();
+                var filteredRoles = products.FirstOrDefault
+                    (r => r.Name == selectedFoods[i]).Id_Unit;
+                var amou = _context.UNITS.FirstOrDefault(u => u.ID == filteredRoles).Name_Unit;
+                amount.Add(amou);
+            }
+            ViewBag.unit = amount;
+
+            return View("RegisterFood");
         }
         public IActionResult registerMenu()
         {
