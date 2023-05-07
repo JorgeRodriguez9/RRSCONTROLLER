@@ -32,21 +32,28 @@ namespace RRSCONTROLLER.Controllers
 
                     string userName = HttpContext.Session.GetString("UserName") ?? Var;
 
-                    var role = _context.USERS.FirstOrDefault(p => p.Name_User == userName).Id_Role;
+                    if(userName != null)
+                    {
+                        var role = _context.USERS.FirstOrDefault(p => p.Name_User == userName).Id_Role;
 
-                    if (role == 1)
-                    {
-                        return RedirectToAction("HomeManagerPAE", "Manager");
+                        if (role == 1)
+                        {
+                            return RedirectToAction("HomeManagerPAE", "Manager");
+                        }
+                        if (role == 2)
+                        {
+                            return RedirectToAction("HomeAdministrator", "AdminPae");
+                        }
+                        if (role == 3)
+                        {
+                            return RedirectToAction("HomeNutritionistPae", "NutritionistPae");
+                        }
                     }
-                    if (role == 2)
+                    else
                     {
-                        return RedirectToAction("HomeAdministrator", "AdminPae");
+                        HttpContext.Session.Clear();
+                        return View();
                     }
-                    if (role == 3)
-                    {
-                        return RedirectToAction("HomeNutritionistPae", "NutritionistPae");
-                    }
-
                 }
             }
             return View();
@@ -57,7 +64,7 @@ namespace RRSCONTROLLER.Controllers
         {
             try
             {
-                using(SqlConnection conn = new("Server= CARLOS_RAMOS\\SQLEXPRESS;Database=RRSCONTROLLER;Database=RRSCONTROLLER;TrustServerCertificate=True;Integrated Security=True"))
+                using(SqlConnection conn = new("Server= LAPTOP-JORGEROD\\SQLEXPRESS;Database=RRSCONTROLLER;Database=RRSCONTROLLER;TrustServerCertificate=True;Integrated Security=True"))
                 {
                     using (SqlCommand cmd = new("sp_validar_usuario", conn))
                     {

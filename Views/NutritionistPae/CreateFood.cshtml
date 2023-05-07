@@ -1,8 +1,11 @@
-﻿<div class="top_Title">
+﻿@model IEnumerable<RRSCONTROLLER.Models.PRODUCT>
+
+<div class="top_Title">
 
     @{
         ViewData["Title"] = "Create Food";
     }
+
 </div>
 
 <!--<div class = "text-white">-->
@@ -13,69 +16,54 @@
     <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" />
 </div>
 
-<label for="amount2" class="fs-5">Name:</label>
-<input type="text" id="amount4" name="amount4">
-
 <h1 style="margin-top: 20px;">Product</h1>
 
 <div class="container">
-    <div class="row">
-        <div class="col d-flex">
-            <div class="box">
-                <input type="text" class="btn btn-light mx-auto ml-2 position-relative id=" nombre" name="nombre" value="<%= Model.Nombre %>" />
-                <label for="amount1">Amount:</label>
-                <input type="text" id="amount4" name="amount4" class="short-input">
-                <button type="button" class="box-btn">Add</button>
-            </div>
-            <div class="box">
-                <input type="text" class="btn btn-light mx-auto position-relative id="nombre" name="nombre" value="<%= Model.Nombre %>" />
-                <label for="amount2">Amount:</label>
-                <input type="text" id="amount4" name="amount4" class="short-input">
-                <button type="button" class="box-btn">Add</button>
-            </div>
-            <div class="box">
-                <input type="text" class="btn btn-light mx-auto position-relative id="nombre" name="nombre" value="<%= Model.Nombre %>" />
-                <label for="amount3">Amount:</label>
-                <input type="text" id="amount4" name="amount4" class="short-input">
-                <button type="button" class="box-btn">Add</button>
-            </div>
-            <div class="box">
-                <input type="text" class="btn btn-light mx-auto position-relative id="nombre" name="nombre" value="<%= Model.Nombre %>" />
-                <label for="amount4">Amount:</label>
-                <input type="text" id="amount4" name="amount4" class="short-input">
-                <button type="button" class="box-btn">Add</button>
+    <form asp-action="CreateFood" asp-controller="NutritionistPAE" method="post">
+
+        <label for="name" class="fs-5">Name:</label>
+        <input type="text" id="name" name="name">
+
+        <div class="row" style="display: flex; flex-wrap: wrap;">
+            @for (int i = 0; i < ViewBag.Complete.Count; i++)
+            {
+                <div class="col-md-4">
+                    <div class="box">
+                        <label class="box-btn">
+                            <input type="checkbox" name="selectedFoods" value="@ViewBag.Complete[i].Text" onclick="toggleAmount(this)">
+                            <span>Select</span>
+                        </label>
+                        <input type="text" class="btn btn-light mx-auto position-left btn-disabledNane" id="nombre" name="nombre" value="@ViewBag.Complete[i].Text" readonly />
+                        <label for="amount1">Amount(@ViewBag.units[i]):</label>
+                        <input type="text" id="amount4" name="amount4" class="short-input" disabled>                        
+                    </div>
+                </div>
+            }
+        </div>
+         <div class="row">
+            <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-light" name="registerFoodButton">REGISTER FOOD</button>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col d-flex">
-            <div class="box">
-                <input type="text" class="btn btn-light mx-auto position-relative id="nombre" name="nombre" value="<%= Model.Nombre %>" />
-                <label for="amount1">Amount:</label>
-                <input type="text" id="amount4" name="amount4" class="short-input">
-                <button type="button" class="box-btn">Add</button>
-            </div>
-            <div class="box">
-                <input type="text" class="btn btn-light mx-auto  position-relative id="nombre" name="nombre" value="<%= Model.Nombre %>" />
-                <label for="amount2">Amount:</label>
-                <input type="text" id="amount4" name="amount4" class="short-input">
-                <button type="button" class="box-btn">Add</button>
-            </div>
-            <div class="box">
-                <input type="text" class="btn btn-light mx-auto position-relative id="nombre" name="nombre" value="<%= Model.Nombre %>" />
-                <label for="amount3">Amount:</label>
-                <input type="text" id="amount4" name="amount4" class="short-input">
-                <button type="button" class="box-btn">Add</button>
-            </div>
-            <div class="box">
-                <input type="text" class="btn btn-light mx-auto position-relative id="nombre" name="nombre" value="<%= Model.Nombre %>" />
-                <label for="amount4">Amount:</label>
-                <input type="text" id="amount4" name="amount4" class="short-input">
-                <button type="button" class="box-btn">Add</button>
-            </div>
-        </div>
-    </div>
-</div>
+<script>
+    function toggleAmount(checkbox) {
+        var amountInput = checkbox.parentNode.parentNode.querySelector('input[name="amount4"]');
+        if (checkbox.checked) {
+            amountInput.disabled = false;
+        } else {
+            amountInput.disabled = true;
+        }
+    }
+</script>
+
+<script>
+    window.addEventListener("pageshow", function (event) {
+        var checkboxes = document.getElementsByName("selectedFoods");
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = false;
+        }
+    })
+</script>

@@ -110,7 +110,7 @@ namespace RRSCONTROLLER.Controllers
             var role = _context.ROLES.ToList();
             var inst = _context.INSTITUTIONS.ToList();
 
-            var filteredRoles = role.Where(r => r.Name_Role== "Nutritionits Institution" || r.Name_Role == "Secretary Institution");
+            var filteredRoles = role.Where(r => r.Name_Role== "Nutritionist Institution" || r.Name_Role == "Secretary Institution");
 
             // Mapear los proveedores a una lista de SelectListItem
             var roleList = filteredRoles.Select(p => new SelectListItem

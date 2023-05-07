@@ -37,6 +37,7 @@ body {
 .btn {
     display: block;
     margin: 0 auto;
+    margin-top: 20px;
 }
 
 .top_separationbutton1 {
@@ -108,3 +109,58 @@ body {
     background-color: #EDEDED;
     color: #212529;
 }
+
+    .box-btn input[type="checkbox"] {
+        display: none;
+    }
+
+    .box-btn span {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #ddd;
+        color: #333;
+        border-radius: 4px;
+    }
+
+    .box-btn input[type="checkbox"]:checked + span {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+.food-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.btn-disabledNane {
+    pointer-events: none; /* disable button selection */
+    border-color: #d2d2d2; /* change the border color to light gray */
+}
+
+.food {
+    font-size: 18px;
+}
+
+.amount {
+    font-size: 16px;
+}
+
+.margin {
+    margin-top: 150px;
+}
+
+.boxTitle {
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 17vh;
+}
+
+.foodTitle {
+    font-size: 48px;
+    text-align: center;
+    padding: 20px;
+}
+
