@@ -24,18 +24,13 @@ namespace RRSCONTROLLER.Controllers
             _context = context;
             _logger = logger;
         }
-        // GET: AdminPaeController
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
+        [Authorize(Roles = "Admin Pae")]
         public IActionResult HomeAdministrator()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin Pae")]
         public async Task<IActionResult> Exit()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -43,6 +38,7 @@ namespace RRSCONTROLLER.Controllers
         }
 
         // GET: AdminPaeController/ProductRegister
+        [Authorize(Roles = "Admin Pae")]
         public IActionResult ProductRegister()
         {
             var suppliers = _context.SUPPLIERS.ToList();
@@ -69,6 +65,7 @@ namespace RRSCONTROLLER.Controllers
         }
 
         // POST: AdminPaeController/Create
+        [Authorize(Roles = "Admin Pae")]
         [HttpPost]
         public async Task<IActionResult> ProductRegister(string name, string supplierId, string unitId)
         {
@@ -92,12 +89,12 @@ namespace RRSCONTROLLER.Controllers
 
                 _context.PRODUCTS.Add(product);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "The product was registered successfully.";
+                TempData["SuccessMessage"] = "El producto fue registrado correctamente.";
 
             }
             else
             {
-                TempData["ErrorMessage"] = "An error occurred while registering the product.";
+                TempData["ErrorMessage"] = "Ocurrio un error al momento de registrar el producto.";
             }
 
             return RedirectToAction("ProductRegister");
@@ -105,6 +102,7 @@ namespace RRSCONTROLLER.Controllers
 
 
         // GET: AdminPaeController/ProductRegister
+        [Authorize(Roles = "Admin Pae")]
         public IActionResult UserRegister()
         {
             var role = _context.ROLES.ToList();
@@ -134,6 +132,7 @@ namespace RRSCONTROLLER.Controllers
         }
 
         // POST: AdminPaeController/Create
+        [Authorize(Roles = "Admin Pae")]
         [HttpPost]
         public async Task<IActionResult> UserRegister(string name, string lastname, string adress, string document,
                                                       string user, string password, string email, string roleId, string instId)
@@ -176,7 +175,7 @@ namespace RRSCONTROLLER.Controllers
 
                         _context.NUTRITIONITS_INTSs.Add(nutritionitsInst);
                         await _context.SaveChangesAsync();
-                        TempData["SuccessMessage"] = "The product was registered successfully.";
+                        TempData["SuccessMessage"] = "El usuario nutricionista fue registrado correctamente.";
                     }
 
                     if (role.ID == (int)DiccionaryB.E)
@@ -196,14 +195,14 @@ namespace RRSCONTROLLER.Controllers
 
                         _context.SECRETARY_INTSs.Add(secretaryInst);
                         await _context.SaveChangesAsync();
-                        TempData["SuccessMessage"] = "The product was registered successfully.";
+                        TempData["SuccessMessage"] = "El usuario secretario fue registrado correctamente.";
 
                     }
 
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "An error occurred while registering the product.";
+                    TempData["ErrorMessage"] = "Ocurrio un error al momento de registrar el usuario";
                 }
 
                 return RedirectToAction("UserRegister");
@@ -216,7 +215,7 @@ namespace RRSCONTROLLER.Controllers
           
         }
 
-
+        [Authorize(Roles = "Admin Pae")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

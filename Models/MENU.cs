@@ -12,9 +12,6 @@ namespace RRSCONTROLLER.Models
         [StringLength(30)]
         public string Name { get; set; }
 
-        [StringLength(20)]
-        public string Status { get; set; }
-
         public int Id_Category { get; set; }
         [ForeignKey("Id_Category")]
         public virtual CATEGORY CATEGORY { get; set; }

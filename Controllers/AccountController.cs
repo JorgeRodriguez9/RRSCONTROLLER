@@ -7,7 +7,7 @@ using Microsoft.Data.SqlClient;
 using RRSCONTROLLER.DAL;
 using RRSCONTROLLER.Models;
 using System.Security.Claims;
-
+using static RRSCONTROLLER.DAL.RSSCONTROLLERContext;
 
 namespace RRSCONTROLLER.Controllers
 {
@@ -36,15 +36,15 @@ namespace RRSCONTROLLER.Controllers
                     {
                         var role = _context.USERS.FirstOrDefault(p => p.Name_User == userName).Id_Role;
 
-                        if (role == 1)
+                        if (role == (int)DiccionaryB.A)
                         {
                             return RedirectToAction("HomeManagerPAE", "Manager");
                         }
-                        if (role == 2)
+                        if (role == (int)DiccionaryB.B)
                         {
                             return RedirectToAction("HomeAdministrator", "AdminPae");
                         }
-                        if (role == 3)
+                        if (role == (int)DiccionaryB.C)
                         {
                             return RedirectToAction("HomeNutritionistPae", "NutritionistPae");
                         }
@@ -64,7 +64,7 @@ namespace RRSCONTROLLER.Controllers
         {
             try
             {
-                using(SqlConnection conn = new("Server= LAPTOP-JORGEROD\\SQLEXPRESS;Database=RRSCONTROLLER;Database=RRSCONTROLLER;TrustServerCertificate=True;Integrated Security=True"))
+                using(SqlConnection conn = new("Server= CARLOS_RAMOS\\SQLEXPRESS;Database=RRSCONTROLLER;Database=RRSCONTROLLER;TrustServerCertificate=True;Integrated Security=True"))
                 {
                     using (SqlCommand cmd = new("sp_validar_usuario", conn))
                     {
@@ -82,6 +82,13 @@ namespace RRSCONTROLLER.Controllers
                                     c.Add(new Claim(ClaimTypes.Name, u.Name_User));
                                     new Claim(ClaimTypes.NameIdentifier, u.Name_User);
                                 }
+
+                                var a = _context.USERS.FirstOrDefault(p => p.Name_User == u.Name_User).Id_Role;
+
+                                var b = _context.ROLES.FirstOrDefault(p => p.ID == a).Name_Role;
+
+                                c.Add(new Claim(ClaimTypes.Role, b));
+
                                 ClaimsIdentity ci = new(c, CookieAuthenticationDefaults.AuthenticationScheme);
                                 AuthenticationProperties p = new();
 
@@ -89,7 +96,7 @@ namespace RRSCONTROLLER.Controllers
                                 p.IsPersistent = u.MaintainActive;
 
                                 if (!u.MaintainActive)
-                                    p.ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(5);
+                                    p.ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10);
                                 else
                                     p.ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(50);
 
@@ -97,19 +104,18 @@ namespace RRSCONTROLLER.Controllers
 
                                 HttpContext.Session.SetString("UserName", u.Name_User);
 
-                                var a = _context.USERS.FirstOrDefault(p => p.Name_User == u.Name_User).Id_Role;
 
                                 Var = u.Name_User;
 
-                                if (a == 1)
+                                if (a == (int)DiccionaryB.A)
                                 {
                                     return RedirectToAction("HomeManagerPAE", "Manager");
                                 }
-                                if (a == 2)
+                                if (a == (int)DiccionaryB.B)
                                 {
                                     return RedirectToAction("HomeAdministrator", "AdminPae");
                                 }
-                                if (a == 3)
+                                if (a == (int)DiccionaryB.C)
                                 {
                                     return RedirectToAction("HomeNutritionistPae", "NutritionistPae");
                                 }

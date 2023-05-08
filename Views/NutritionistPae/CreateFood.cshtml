@@ -1,28 +1,35 @@
 ﻿@model IEnumerable<RRSCONTROLLER.Models.PRODUCT>
 
-<div class="top_Title">
+@{
+    ViewData["Title"] = "Crear Alimento";
+}
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="NutritionistPae" asp-action="HomeNutritionistPae">Volver</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+</header>
 
-    @{
-        ViewData["Title"] = "Create Food";
-    }
-
+<div class="text-center">
+    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" style="width: 55%;" />
 </div>
 
 <!--<div class = "text-white">-->
 <h3>@ViewData["Title"] </h3>
 <!--</div>-->
-
-<div class="text-center">
-    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" />
-</div>
-
-<h1 style="margin-top: 20px;">Product</h1>
-
+<br />
 <div class="container">
-    <form asp-action="CreateFood" asp-controller="NutritionistPAE" method="post">
+    <form asp-action="CreateFood" asp-controller="NutritionistPae" method="post">
 
-        <label for="name" class="fs-5">Name:</label>
+        <label for="name" class="fs-5">Nombre:</label>
         <input type="text" id="name" name="name">
+
+        <h4 style="margin-top: 20px;">Productos:</h4>
 
         <div class="row" style="display: flex; flex-wrap: wrap;">
             @for (int i = 0; i < ViewBag.Complete.Count; i++)
@@ -34,7 +41,7 @@
                             <span>Select</span>
                         </label>
                         <input type="text" class="btn btn-light mx-auto position-left btn-disabledNane" id="nombre" name="nombre" value="@ViewBag.Complete[i].Text" readonly />
-                        <label for="amount1">Amount(@ViewBag.units[i]):</label>
+                        <label for="amount1">Cantidad(@ViewBag.units[i]):</label>
                         <input type="text" id="amount4" name="amount4" class="short-input" disabled>                        
                     </div>
                 </div>
@@ -42,7 +49,7 @@
         </div>
          <div class="row">
             <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-light" name="registerFoodButton">REGISTER FOOD</button>
+                <button type="submit" class="btn btn-light" name="registerFoodButton">REGISTRAR ALIMENTO</button>
             </div>
         </div>
     </form>
@@ -67,3 +74,14 @@
         }
     })
 </script>
+<script>
+    window.onload = function () {
+        if ('@TempData.ContainsKey("SuccessMessage")' == "True") {
+            alert('@TempData["SuccessMessage"]');
+        }
+        if ('@TempData.ContainsKey("Error")' == "True") {
+            alert('@TempData["Error"]');
+        }
+    };
+</script>
+

@@ -1,7 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Product Register";
 }
-
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="AdminPae" asp-action="HomeAdministrator">Volver</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+</header>
 <div class="text-center">
     <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" style="width: 55%;" />
 </div>
@@ -9,13 +19,13 @@
 <br />
 <form asp-controller="AdminPae" asp-action="ProductRegister" method="post">
     <div class="form-group">
-        <label for="name" class="font-weight-bold text-center">Name:</label>
+        <label for="name" class="font-weight-bold text-center">Nombre:</label>
         <input type="text" name="name" class="form-control col-5 mx-auto" />
     </div>
     <div class="form-group">
-        <label for="supplierId" class="font-weight-bold text-center">Supplier:</label>
+        <label for="supplierId" class="font-weight-bold text-center">Proveedor:</label>
         <select name="supplierId" class="form-control col-5 mx-auto">
-            <option value="">Select a supplier</option>
+            <option value="">Seleccione un proveedor</option>
             @if (ViewBag.supplier != null)
             {
                 @foreach (var item in ViewBag.supplier)
@@ -26,9 +36,9 @@
         </select>
     </div>
     <div class="form-group">
-        <label for="unitId" class="font-weight-bold text-center">Unit:</label>
+        <label for="unitId" class="font-weight-bold text-center">Unidad:</label>
         <select name="unitId" class="form-control col-5 mx-auto">
-            <option value="">Select a unit</option>
+            <option value="">Seleccione una unidad</option>
             @if (ViewBag.unit != null)
             {
                 @for (int i = 0; i < ViewBag.unit.Count; i++)
@@ -39,7 +49,7 @@
         </select>
     </div>
     <br />
-    <button type="submit" class="btn btn-primary mx-auto d-block">Register</button>
+    <button type="submit" class="btn btn-primary mx-auto d-block">REGISTRAR</button>
 </form>
 <br />
 <br />

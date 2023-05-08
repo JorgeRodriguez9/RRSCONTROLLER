@@ -1,6 +1,17 @@
 ﻿@{
     ViewData["Title"] = "User Register";
 }
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="AdminPae" asp-action="HomeAdministrator">Volver</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+</header>
 <div class="text-center">
     <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" style="width: 55%;" />
 </div>
@@ -10,27 +21,27 @@
     <div class="row">
         <div class="col">
             <div class="form-group">
-                <label for="name" class="font-weight-bold text-center">Name:</label>
+                <label for="name" class="font-weight-bold text-center">Nombre:</label>
                 <input type="text" name="name" class="form-control col-5 mx-auto" />
             </div>
             <div class="form-group">
-                <label for="lastName" class="font-weight-bold text-center">Last Name:</label>
+                <label for="lastName" class="font-weight-bold text-center">Apellido:</label>
                 <input type="text" name="lastName" class="form-control col-5 mx-auto" />
             </div>
             <div class="form-group">
-                <label for="adress" class="font-weight-bold text-center">Adress:</label>
+                <label for="adress" class="font-weight-bold text-center">Dirección:</label>
                 <input type="text" name="adress" class="form-control col-5 mx-auto" />
             </div>
             <div class="form-group">
-                <label for="document" class="font-weight-bold text-center">Document:</label>
+                <label for="document" class="font-weight-bold text-center">Documento:</label>
                 <input type="text" name="document" class="form-control col-5 mx-auto" />
             </div>
             <div class="form-group">
-                <label for="user" class="font-weight-bold text-center">User:</label>
+                <label for="user" class="font-weight-bold text-center">Usuario:</label>
                 <input type="text" name="user" class="form-control col-5 mx-auto" />
             </div>
             <div class="form-group">
-                <label for="password" class="font-weight-bold text-center">Password:</label>
+                <label for="password" class="font-weight-bold text-center">Contraseña:</label>
                 <input type="text" name="password" class="form-control col-5 mx-auto" />
             </div>
             <div class="form-group">
@@ -46,9 +57,9 @@
             <br />
             <br />
             <div class="form-group">
-                <label for="roleId" class="font-weight-bold text-center">Role:</label>
+                <label for="roleId" class="font-weight-bold text-center">Rol:</label>
                 <select name="roleId" class="form-control col-5 mx-auto">
-                    <option value="">Select a role</option>
+                    <option value="">Seleccione un rol</option>
                     @if (ViewBag.role != null)
                     {
                         @foreach (var item in ViewBag.role)
@@ -59,9 +70,9 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="instId" class="font-weight-bold text-center">Institution:</label>
+                <label for="instId" class="font-weight-bold text-center">Institución:</label>
                 <select name="instId" class="form-control col-5 mx-auto">
-                    <option value="">Select a institution</option>
+                    <option value="">Seleccione una institucion</option>
                     @if (ViewBag.inst != null)
                     {
                         @for (int i = ViewBag.cero; i < ViewBag.inst.Count; i++)
@@ -72,7 +83,7 @@
                 </select>
             </div>
             <br />
-            <button type="submit" class="btn btn-primary mx-auto d-block">Register</button>
+            <button type="submit" class="btn btn-primary mx-auto d-block">REGISTRAR</button>
         </div>
     </div>
 </form>
