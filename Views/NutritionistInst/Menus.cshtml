@@ -47,52 +47,51 @@
                         <div class="MenuD text-center">@ViewBag.Complete[i].Text</div>
                         <hr>
                         <label class="box-btn-details">
-                            <input type="checkbox" name="details" value="@ViewBag.Complete[i].Text" onclick="toggleAmount(this)">
+                            <button type="button" name="details" value="@ViewBag.Complete[i].Text" onclick="toggleAmountBoton(this)">Seleccionar</button>
                             <span class="checkbox-label">Detalles</span>
                         </label>
                     </div>
                 </div>
             }
         </div>
-        <div class="col-md-6 col-custom">
-            <div class="box-outline float-right" id="selected-items-box">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="parr-box">
-                            <p><b>Productos</b></p>
-                        </div>
+        <div id="selected-items-box" class="box-outline float-right" style="display:none;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="parr-box">
+                        <p><b>Productos</b></p>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="d-flex align-items-center">
-                            <p><b>Productos</b></p>
-                        </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="d-flex-p">
+                        <p><b>Productos</b></p>
                     </div>
-                    <div class="col-md-6">
-                        <div class="box-btn-m">
-                            <div class="form-group text-right">
-                                <select name="menuId" class="form-control col-1">
-                                    <option value="">Seleccionar una categoria</option>
-                                    @if (ViewBag.Category != null)
+                </div>
+                <div class="col-md-6">
+                    <div class="box-btn-m">
+                        <div class="form-group text-right">
+                            <select name="menuId" class="form-control col-1">
+                                <option value="">Seleccionar una categoria</option>
+                                @if (ViewBag.Category != null)
+                                {
+                                    @for (int i = 0; i < ViewBag.Category.Count; i++)
                                     {
-                                        @for (int i = 0; i < ViewBag.Category.Count; i++)
-                                        {
-                                            <option value="@ViewBag.Category[i].Text">@ViewBag.Category[i].Text</option>
-                                        }
+                                        <option value="@ViewBag.Category[i].Text">@ViewBag.Category[i].Text</option>
                                     }
-                                </select>
-                            </div>
+                                }
+                            </select>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
      <div class="col-md-7">
-            <div class="text-left">
+    <div class="d-flex-pb">
                 <button type="submit" class="btn3 btn-light btn-lg marginBut" name="createRegister">PEDIR</button>
             </div>
         </div>
@@ -114,6 +113,17 @@
             }
         } else if ($("#checkbox-container input[name='details']:checked").length == 0) {
             selectedItemsBox.hide();
+        }
+    }
+</script>
+
+<script>
+    function toggleAmountBoton(button) {
+        var selectedItemsBox = document.getElementById("selected-items-box");
+        if (selectedItemsBox.style.display === "none") {
+            selectedItemsBox.style.display = "block";
+        } else {
+            selectedItemsBox.style.display = "none";
         }
     }
 </script>

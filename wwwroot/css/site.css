@@ -222,7 +222,7 @@ body {
 
 #parr-box {
     float: right;
-    margin-right: 15px;
+    margin-right: 30px;
 }
 
 .box-btn-details {
@@ -260,3 +260,30 @@ body {
     border-radius: 0.25rem;
     color: #f65706;
 }
+
+.d-flex-p {
+    margin-left: 30px;
+}
+
+.d-flex-pb {
+    margin-left: 880px;
+}
+
+.box-btn-details button.active {
+    /* Styles you want to apply when the button is active */
+}
+
+#selected-items-box {
+    position: absolute;
+    top: 27%;
+    right: 5%;
+    bottom: 0;
+    width: 50%;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+    #selected-items-box select {
+        width: 160%;
+    }
