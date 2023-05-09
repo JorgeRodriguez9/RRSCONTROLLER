@@ -1,0 +1,119 @@
+﻿@model IEnumerable<RRSCONTROLLER.Models.MENU>
+
+<div class="top_Title">
+
+    @{
+        ViewData["Title"] = "Menus";
+    }
+
+</div>
+
+<!--<div class = "text-white">-->
+<h3>@ViewData["Title"] </h3>
+<!--</div>-->
+
+<div class="text-center">
+    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" />
+</div>
+
+<h1 style="margin-top: 20px;">Menus</h1>
+
+<div class="form-group text-left">
+    <label for="menuId" class="font-weight-bold">Menu:</label>
+    <select name="menuId" class="form-control col-1">
+        <option value="">Seleccionar una categoria</option>
+        @if (ViewBag.Category != null) //check if there are menus available
+        {
+            @for (int i = 0; i < ViewBag.Category.Count; i++)
+            {
+                <option value="@ViewBag.Category[i].Text">@ViewBag.Category[i].Text</option>
+            }
+        }
+    </select>
+</div>
+
+<div class="container-fluid no-padding-left">
+    <div class="row row-custom">
+        <div class="col-md-6 col-custom align-items-center d-flex flex-column box-column" id="checkbox-container">
+            @for (int i = 0; i < ViewBag.Complete.Count; i++)
+            {
+                <div class="box-container">
+                    <div class="box">
+                        <label class="box-btn">
+                            <input type="checkbox" name="selectedFoods" value="@ViewBag.Complete[i].Text" onclick="toggleAmount(this)">
+                            <span class="checkbox-label">Select</span>
+                        </label>
+
+                        <div class="MenuD text-center">@ViewBag.Complete[i].Text</div>
+                        <hr>
+                        <label class="box-btn-details">
+                            <input type="checkbox" name="details" value="@ViewBag.Complete[i].Text" onclick="toggleAmount(this)">
+                            <span class="checkbox-label">Detalles</span>
+                        </label>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-6 col-custom">
+            <div class="box-outline float-right" id="selected-items-box">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="parr-box">
+                            <p><b>Productos</b></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center">
+                            <p><b>Productos</b></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="box-btn-m">
+                            <div class="form-group text-right">
+                                <select name="menuId" class="form-control col-1">
+                                    <option value="">Seleccionar una categoria</option>
+                                    @if (ViewBag.Category != null)
+                                    {
+                                        @for (int i = 0; i < ViewBag.Category.Count; i++)
+                                        {
+                                            <option value="@ViewBag.Category[i].Text">@ViewBag.Category[i].Text</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+     <div class="col-md-7">
+            <div class="text-left">
+                <button type="submit" class="btn3 btn-light btn-lg marginBut" name="createRegister">PEDIR</button>
+            </div>
+        </div>
+  </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#selected-items-box").hide();
+    });
+
+    function toggleAmount(checkbox) {
+        var selectedItemsBox = $("#selected-items-box");
+        if ($(checkbox).is(":checked")) {
+            if ($(checkbox).attr('name') == "details") {
+                selectedItemsBox.show();
+            }
+        } else if ($("#checkbox-container input[name='details']:checked").length == 0) {
+            selectedItemsBox.hide();
+        }
+    }
+</script>

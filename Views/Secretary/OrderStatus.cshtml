@@ -1,0 +1,32 @@
+﻿
+
+<div class="top_Title">
+
+    @{
+        ViewData["Title"] = "Order Status";
+    }
+
+</div>
+
+<!--<div class = "text-white">-->
+<h3>@ViewData["Title"] </h3>
+<!--</div>-->
+
+<div class="text-center">
+    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" />
+</div>
+
+<table>
+    <tr class="tableTitle">
+        <th>Requests</th>
+        <th>State</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Value1</td>
+            <td>@item.Value2</td>
+        </tr>
+    }
+</table>

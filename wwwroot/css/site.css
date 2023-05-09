@@ -97,8 +97,8 @@ body {
 .box-btn {
     width: 100%;
     padding: 0.375rem 0.75rem;
-    margin-top: 1rem;
-    font-size: 1.1rem;
+    margin-top: 0rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 1.5;
     text-align: center;
@@ -150,6 +150,10 @@ body {
     margin-top: 150px;
 }
 
+.marginP {
+    margin-top: 150px;
+}
+
 .boxTitle {
     border: 2px solid white;
     display: flex;
@@ -164,3 +168,95 @@ body {
     padding: 20px;
 }
 
+.no-padding-left {
+    padding-left: 0;
+}
+
+.row-custom {
+    width: 100%;
+}
+
+.col-custom {
+    width: 300px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.box-column {
+    margin-left: 0;
+}
+
+.box-container {
+    width: 100%;
+    float: left;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.checkbox-label {
+    font-size: 20px;
+}
+
+.MenuD {
+    font-size: 30px;
+}
+
+.marginBut {
+    font-size: 25px;
+    margin-top: 30px;
+}
+
+.box-outline {
+    width: 700px;
+    height: 180px;
+    border: 2px solid black;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+#selected-items-box {
+    display: none;
+}
+
+#parr-box {
+    float: right;
+    margin-right: 15px;
+}
+
+.box-btn-details {
+    width: 50%;
+    padding: 0.375rem 0.75rem;
+    margin-top: 0rem;
+    margin-left: 7rem;
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 0.5;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border: 1px solid #000000;
+    border-radius: 0.25rem;
+    background-color: #e4f1ff;
+    color: #f65706;
+}
+
+.custom-class {
+    text-align: right;
+}
+
+.box-btn-m {
+    width: 50%;
+    padding: 0rem 0.35rem;
+    margin-top: 0rem;
+    margin-left: 0rem;
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 0.5;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 0.25rem;
+    color: #f65706;
+}
