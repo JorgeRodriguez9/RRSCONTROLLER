@@ -1,11 +1,42 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RRSCONTROLLER.Controllers;
+using RRSCONTROLLER.DAL;
 
 namespace RRS_Controller.Controllers
 {
+
+    [Authorize]
     public class SecretaryController : Controller
     {
+
+        private readonly ILogger<SecretaryController> _logger;
+
+        private readonly RSSCONTROLLERContext _context;
+
+        public SecretaryController(RSSCONTROLLERContext context, ILogger<SecretaryController> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
         // GET: SecretaryController
+
+        public IActionResult OrderStatus()
+        {
+            return View();
+        }
+
+        public IActionResult Received()
+        {
+            return View();
+        }
+
+        public IActionResult Evaluation()
+        {
+            return View();
+        }
+
         public ActionResult Index()
         {
             return View();

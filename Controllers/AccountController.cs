@@ -48,6 +48,14 @@ namespace RRSCONTROLLER.Controllers
                         {
                             return RedirectToAction("HomeNutritionistPae", "NutritionistPae");
                         }
+                        if (role == (int)DiccionaryB.D)
+                        {
+                            return RedirectToAction("HomeNutritionistINST", "NutritionistInst");
+                        }
+                        if (role == (int)DiccionaryB.E)
+                        {
+                            return RedirectToAction("HomeSecretary", "Secretary");
+                        }
                     }
                     else
                     {
@@ -64,7 +72,7 @@ namespace RRSCONTROLLER.Controllers
         {
             try
             {
-                using(SqlConnection conn = new("Server= CARLOS_RAMOS\\SQLEXPRESS;Database=RRSCONTROLLER;Database=RRSCONTROLLER;TrustServerCertificate=True;Integrated Security=True"))
+                using(SqlConnection conn = new("Server= LAPTOP-JORGEROD\\SQLEXPRESS;Database=RRSCONTROLLER;Database=RRSCONTROLLER;TrustServerCertificate=True;Integrated Security=True"))
                 {
                     using (SqlCommand cmd = new("sp_validar_usuario", conn))
                     {
@@ -119,8 +127,17 @@ namespace RRSCONTROLLER.Controllers
                                 {
                                     return RedirectToAction("HomeNutritionistPae", "NutritionistPae");
                                 }
+                                if (a == (int)DiccionaryB.D)
+                                {
+                                    return RedirectToAction("HomeNutritionistINST", "NutritionistInst");
+                                }
+                                if (a == (int)DiccionaryB.E)
+                                {
+                                    return RedirectToAction("HomeSecretary", "Secretary");
+                                }
 
-                               
+
+
                             }
                             else
                             {
