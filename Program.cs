@@ -27,6 +27,7 @@ namespace RRSCONTROLLER
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
             {
                 option.LoginPath = "/Account/Login";
+                option.AccessDeniedPath = "/Home/Privacy";
             });
 
             var app = builder.Build();

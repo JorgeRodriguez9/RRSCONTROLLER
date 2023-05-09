@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Registrar Menu";
+}
+
+
+<div class="text-center">
+    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" style="width: 55%;" />
+</div>
+
+<br />
+<br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="boxTitle">
+                @if (ViewBag.name != null)
+                {
+                    <div class="foodTitle">@ViewBag.name</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 d-flex">
+            <div class="box">
+                @if (ViewBag.zero != null && ViewBag.selectFood != null)
+                {
+                    @for (int i = ViewBag.zero; i < ViewBag.selectFood.Count; i++)
+                    {
+                        <div class="food">@ViewBag.selectFood[i]</div>
+                        <hr>
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-md-6 margin">
+            <form asp-action="RegisterMenu" asp-controller="NutritionistPae" method="post">
+
+                @if (ViewBag.zero != null && ViewBag.selectFood != null && ViewBag.name != null && ViewBag.SelectCategory != null)
+                {
+                    @for (int i = ViewBag.zero; i < ViewBag.selectFood.Count; i++)
+                    {
+                        <input type="hidden" name="foods[]" value="@ViewBag.selectFood[i]">
+                    }
+                    <input type="hidden" name="name" value="@ViewBag.name">
+
+                    <input type="hidden" name="category" value="@ViewBag.SelectCategory">
+                }
+                <button type="submit" class="btn btn-light btn-lg" name="createRegister">CREAR</button>
+            </form>
+        </div>
+    </div>
+</div>
+

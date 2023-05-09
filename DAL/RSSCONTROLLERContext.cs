@@ -14,6 +14,9 @@ namespace RRSCONTROLLER.DAL
         {
 
             modelBuilder.Entity<USER>().HasIndex(u => u.Name_User).IsUnique();
+            modelBuilder.Entity<PRODUCT>().HasIndex(u => u.Name).IsUnique();
+            modelBuilder.Entity<MENU>().HasIndex(u => u.Name).IsUnique();
+            modelBuilder.Entity<FOOD>().HasIndex(u => u.Name).IsUnique();
 
             modelBuilder.Entity<NUTRITIONITS_INTS>()
              .HasOne(n => n.INSTITUTION)

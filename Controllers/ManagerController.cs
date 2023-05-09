@@ -22,28 +22,27 @@ namespace RRSCONTROLLER.Controllers
             _logger = logger;
         }
 
-        // GET: ManagerController
-        public ActionResult Index()
-        {
-            return View();
-        }
-
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Exit()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");
         }
 
+        [Authorize(Roles = "Manager")]
         public IActionResult HomeManagerPAE()
         {
             return View();
         }
         // GET: AdminPaeController/RegisterInstitution
+
+        [Authorize(Roles = "Manager")]
         public IActionResult RegisterInstitution()
         {
             return View();
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> RegisterInstitution(string name, string adress, string numberPhone, string email)
         {
@@ -64,35 +63,22 @@ namespace RRSCONTROLLER.Controllers
                 };
                 _context.INSTITUTIONS.Add(institution);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "The product was registered successfully.";
+                TempData["SuccessMessage"] = "La institución se ha registrado correctamente.";
             }
             else
             {
-                TempData["ErrorMessage"] = "An error occurred while registering the product.";
+                TempData["ErrorMessage"] = "Occurrio un error al momento de registrar la institucion.";
             }
 
             return RedirectToAction("RegisterInstitution");
         }
 
+        [Authorize(Roles = "Manager")]
         public IActionResult Reports()
         {
             return View();
         }
 
-        // POST: ManagerController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

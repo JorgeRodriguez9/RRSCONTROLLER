@@ -1,74 +1,89 @@
-﻿<div class="top_Title">
-
-    @{
-        ViewData["Title"] = "Create Menus";
-    }
+﻿@{
+    ViewData["Title"] = "Crear Menu";
+}
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="NutritionistPae" asp-action="HomeNutritionistPae">Volver</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+</header>
+<div class="text-center">
+    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" style="width: 55%;" />
 </div>
 
 <!--<div class = "text-white">-->
-<h3>@ViewData["Title"] </h3>
+<center>
+    <h3>@ViewData["Title"] </h3>
+</center>
+
 <!--</div>-->
-
-<div class="text-center">
-    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" />
-</div>
-
+<br />
+<br />
 <div class="container">
-    <div class="row">
-        <div class="col d-flex top_separationrecivetext">
-            <input type="text" class="btn btn-light mx-auto position-relative id="nombre" name="nombre" value="<%= Model.Nombre %>" />
-            <input type="text" class="btn btn-light mx-auto position-relative id="nombre" name="nombre" value="<%= Model.Nombre %>" />
-            <input type="text" class="btn btn-light mx-auto position-relative id="nombre" name="nombre" value="<%= Model.Nombre %>" />
-            <input type="text" class="btn btn-light mx-auto position-relative id="nombre" name="nombre" value="<%= Model.Nombre %>" />
-        </div>
-    </div>
-</div>
+    <form asp-action="CreateMenu" asp-controller="NutritionistPae" method="post">
 
-<div class="container">
-    <div class="row">
-        <div class="col d-flex top_separationbutton">
-            <button type="button" class="btn btn-light mx-auto position-relative">
-                ADD
-            </button>
-            <button type="button" class="btn btn-light mx-auto ml-2 position-relative">
-                ADD
-            </button>
-            <button type="button" class="btn btn-light mx-auto ml-2 position-relative">
-                ADD
-            </button>
-            <button type="button" class="btn btn-light mx-auto ml-2 position-relative">
-                ADD
-            </button>
+        <div class="form-group">
+            <label for="category" class="font-weight-bold text-center">Categoria:</label>
+            <select name="category" class="form-control col-5 mx-auto">
+                <option value="">Seleccionar Categoria</option>
+                @if (ViewBag.category != null)
+                {
+                    @for (int i = ViewBag.cero; i < ViewBag.category.Count; i++)
+                    {
+                        <option value="@ViewBag.category[i].Text">@ViewBag.category[i].Text</option>
+                    }
+                }
+            </select>
         </div>
-    </div>
-</div>
 
-<div class="container">
-    <div class="row">
-        <div class="col d-flex top_separationrecivetext">
-            <input type="text" class="btn btn-light mx-auto position-relative id="nombre" name="nombre" value="<%= Model.Nombre %>" />
-            <input type="text" class="btn btn-light mx-auto position-relative id="nombre" name="nombre" value="<%= Model.Nombre %>" />
-            <input type="text" class="btn btn-light mx-auto position-relative id="nombre" name="nombre" value="<%= Model.Nombre %>" />
-            <input type="text" class="btn btn-light mx-auto position-relative id="nombre" name="nombre" value="<%= Model.Nombre %>" />
+        <div class="form-group">
+            <label for="name" class="font-weight-bold text-center">Nombre:</label>
+            <input type="text" name="name" class="form-control col-5 mx-auto" />
         </div>
-    </div>
-</div>
 
-<div class="container">
-    <div class="row">
-        <div class="col d-flex top_separationbutton">
-            <button type="button" class="btn btn-light mx-auto position-relative">
-                ADD
-            </button>
-            <button type="button" class="btn btn-light mx-auto ml-2 position-relative">
-                ADD
-            </button>
-            <button type="button" class="btn btn-light mx-auto ml-2 position-relative">
-                ADD
-            </button>
-            <button type="button" class="btn btn-light mx-auto ml-2 position-relative">
-                ADD
-            </button>
+        <div class="row" style="display: flex; flex-wrap: wrap;">
+            @for (int i = ViewBag.cero; i < ViewBag.food.Count; i++)
+            {
+                <div class="col-md-4">
+                    <div class="box">
+                        <label class="box-btn">
+                            <input type="checkbox" name="selectedFoods" value="@ViewBag.food[i].Text" onclick="toggleAmount(this)">
+                            <span>Select</span>
+                        </label>
+                        <input type="text" class="btn btn-light mx-auto position-left btn-disabledNane" id="nombre" name="nombre" value="@ViewBag.food[i].Text" readonly />
+                    </div>
+                </div>
+            }
         </div>
-    </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-light" name="registerMenuButton">REGISTRAR MENU</button>
+            </div>
+        </div>
+    </form>
 </div>
+<script>
+    window.addEventListener("pageshow", function (event) {
+        var checkboxes = document.getElementsByName("selectedFoods");
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = false;
+        }
+    })
+</script>
+<script>
+    window.onload = function () {
+        if ('@TempData.ContainsKey("SuccessMessageM")' == "True") {
+            alert('@TempData["SuccessMessageM"]');
+        }
+        if ('@TempData.ContainsKey("ErrorM")' == "True") {
+            alert('@TempData["ErrorM"]');
+
+        }
+    };
+</script>
+

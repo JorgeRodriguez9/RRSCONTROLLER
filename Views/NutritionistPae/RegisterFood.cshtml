@@ -1,46 +1,56 @@
-﻿
-
-<div class="top_Title">
-
-    @{
-        ViewData["Title"] = "Register Food";
-    }
-
-</div>
-
-<!--<div class = "text-white">-->
-<h3>@ViewData["Title"] </h3>
-<!--</div>-->
+﻿@{
+    ViewData["Title"] = "Registrar Alimento";
+}
 
 <div class="text-center">
-    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" />
+    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" style="width: 55%;" />
 </div>
 
 <div class="container">
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="boxTitle">
+                @if (ViewBag.name != null){
                 <div class="foodTitle">@ViewBag.name</div>
+                }
             </div>
         </div>
     </div>
 </div>
+<br />
+<br />
 
 <div class="container">
     <div class="row">
         <div class="col-md-5 d-flex">
             <div class="box">
-                @for (int i = 0; i < ViewBag.Food.Count; i++)
+            @if (ViewBag.food != null && ViewBag.Amount != null && ViewBag.unit != null && ViewBag.zero != null)
+            {
+                @for (int i = ViewBag.zero; i < ViewBag.Food.Count; i++)
                 {
                     <div class="food">@ViewBag.Food[i]</div>
                     <div class="amount">@ViewBag.Amount[i] @ViewBag.unit[i]</div>
                     <hr>
                 }  
+            }
             </div>
          </div>
         <div class="col-md-6 margin">
-            <button type="submit" class="btn btn-light btn-lg" name="createRegister">CREATE</button>
-        </div>
+            <form asp-action="RegisterFood" asp-controller="NutritionistPae" method="post">
+
+                @if (ViewBag.food != null && ViewBag.Amount != null && ViewBag.unit != null && ViewBag.zero != null && ViewBag.name != null)
+            {
+                @for (int i = ViewBag.zero; i < ViewBag.Food.Count; i++)
+                {
+                    <input type="hidden" name="foods[]" value="@ViewBag.Food[i]">
+                    <input type="hidden" name="amounts[]" value="@ViewBag.Amount[i]">
+                    <input type="hidden" name="units[]" value="@ViewBag.unit[i]">
+                }
+            
+                <input type="hidden" name="name" value="@ViewBag.name">
+            }
+                <button type="submit" class="btn btn-light btn-lg" name="createRegister">CREAR</button>
+            </form>
         </div>
     </div>
 </div>
