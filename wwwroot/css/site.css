@@ -163,7 +163,7 @@ body {
     margin-top: -80px;
 }
 .marginDate2 {
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 .boxTitle {
@@ -354,5 +354,5 @@ body {
 .label-container {
     margin-top: -180px;
     margin-bottom: 100px;
-    margin-left: px;
+    margin-left: 380px;
 }
