@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RRSCONTROLLER.Controllers;
 using RRSCONTROLLER.DAL;
+using RRSCONTROLLER.Models;
+using static RRSCONTROLLER.DAL.RSSCONTROLLERContext;
 
 namespace RRS_Controller.Controllers
 {
@@ -26,7 +28,7 @@ namespace RRS_Controller.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles = "Nutritionist Institution")]
         public ActionResult Menus()
         {
             var menu = _context.MENUS.ToList();
@@ -48,79 +50,178 @@ namespace RRS_Controller.Controllers
             return View();
         }
 
-
-        // GET: NutritionistInstController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: NutritionistInstController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: NutritionistInstController/Create
+        [Authorize(Roles = "Nutritionist Institution")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Menus(string categoryId, List<string> selectedMenus)
         {
+            TempData.Remove("SuccessMessage");
+            TempData.Remove("Error");
+            ViewBag.selectedMenus = selectedMenus;
+            ViewBag.SelectCategory = categoryId;
+            ViewBag.zero = (int)DiccionaryB.X;
+
+            return View("RegisterRequest");
+        }
+        [Authorize(Roles = "Nutritionist Institution")]
+        public IActionResult RegisterRequest()
+        {
+            return View();
+        }
+        /*
+        [Authorize(Roles = "Nutritionist Institution")]
+        [HttpPost]
+        public async Task<IActionResult> RegisterRequest(List<string> foods, string name, string category)
+        {
+            TempData.Remove("SuccessMessageM");
+            TempData.Remove("ErrorM");
+            int cont = (int)DiccionaryB.X;
             try
             {
-                return RedirectToAction(nameof(Index));
+                string userName = HttpContext.Session.GetString("UserName");
+                var user = _context.USERS.FirstOrDefault(p => p.Name_User == userName).ID;
+                var nutritionistPae = _context.NUTRITIONITS_PAEs.FirstOrDefault(p => p.Id_User == user).ID;
+
+
+                if (name != null && foods != null && category != null)
+                {
+
+                    for (int i = (int)DiccionaryB.X; i < foods.Count; i++)
+                    {
+
+                        if (foods[i] != null)
+                        {
+                        }
+                        else
+                        {
+                            cont = (int)DiccionaryB.A;
+                        }
+
+                    }
+
+                    if (foods.Count == (int)DiccionaryB.X)
+                    {
+                        cont = (int)DiccionaryB.A;
+                    }
+
+                    if (cont == (int)DiccionaryB.X)
+                    {
+                        var idcategory = _context.CATEGORYS.FirstOrDefault(p => p.Name == category).ID;
+
+                        var menu = new MENU
+                        {
+                            Name = name,
+                            Id_Category = idcategory,
+                            Id_Nutritionits_Pae = nutritionistPae
+                        };
+
+                        _context.MENUS.Add(menu);
+                        await _context.SaveChangesAsync();
+
+                        for (int i = (int)DiccionaryB.X; i < foods.Count; i++)
+                        {
+
+                            var menuFood = new MENU_FOOD
+                            {
+
+                                Id_Menu = _context.MENUS.FirstOrDefault(u => u.Name == name).ID,
+                                Id_Food = _context.FOODS.FirstOrDefault(u => u.Name == foods[i]).ID,
+                            };
+
+                            _context.MENU_FOODS.Add(menuFood);
+                        }
+
+                        await _context.SaveChangesAsync();
+                        TempData["SuccessMessageM"] = "El menu se ha registrado exitosamente";
+                        return RedirectToAction("CreateMenu");
+                    }
+                    else
+                    {
+                        TempData["ErrorM"] = "El menu le falta informacion";
+                        return RedirectToAction("CreateMenu");
+                    }
+
+                }
+                else
+                {
+
+                    TempData["ErrorM"] = "El menu le falta informacion";
+                    return RedirectToAction("CreateMenu");
+
+                }
+
             }
-            catch
+            catch (System.Exception e)
             {
-                return View();
+                TempData["ErrorM"] = "Error al guardar en la BD";
+                return RedirectToAction("CreateMenu");
             }
         }
+        */
 
-        // GET: NutritionistInstController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
 
+        [Authorize(Roles = "Nutritionist Institution")]
         public IActionResult HomeNutritionistINST()
         {
             return View();
         }
-
-        // POST: NutritionistInstController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public IActionResult MyAction(string text, string id)
         {
-            try
+            var menu = _context.MENUS.FirstOrDefault(u => u.Name == text).ID;
+
+            var foodList = new List<string>();
+            var pList = new List<List<String>>();
+
+            var mfood = _context.MENU_FOODS.ToList();
+            var pfood = _context.FOOD_PRODUCTS.ToList();
+
+            var food = _context.FOODS.ToList();
+
+            var filteredRoles = mfood.Where(r => r.Id_Menu == menu);
+
+            // Mapear los proveedores a una lista de SelectListItem
+            var roleList = filteredRoles.Select(p => new SelectListItem
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+                Value = p.Id_Food.ToString()
+            }).ToList();
+
+            for (int i = (int)DiccionaryB.X; i < roleList.Count; i++)
             {
-                return View();
+                var filteredFood = food.FirstOrDefault(r => r.ID == int.Parse(roleList[i].Value)).Name;
+                foodList.Add(filteredFood);
             }
+
+            for (int i = (int)DiccionaryB.X; i < foodList.Count; i++)
+            {
+
+                var product = new List<string>();
+
+                var foods = food.FirstOrDefault(r => r.Name == foodList[i]).ID;
+
+                var filteredMenu = pfood.Where(r => r.Id_Food == foods);
+
+                var productList = filteredMenu.Select(p => new SelectListItem
+                {
+                    Value = p.Id_Product.ToString(),
+                    Text = p.Amount.ToString()
+                }).ToList();
+
+                for (int j = (int)DiccionaryB.X; j < productList.Count; j++)
+                {
+                    var filteredP = productList[j].Value + " " + _context.PRODUCTS.FirstOrDefault(r => r.ID == int.Parse(productList[j].Value)).Name;
+                    product.Add(filteredP);
+                }
+
+                pList.Add(product);
+
+            }
+
+            ViewBag.Foods = foodList;
+            ViewBag.Products = pList;
+
+            return PartialView("_SelectedItemsBox");
+
         }
 
-        // GET: NutritionistInstController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: NutritionistInstController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

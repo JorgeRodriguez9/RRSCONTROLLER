@@ -1,0 +1,35 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div id="parr-box">
+            <p><b>Productos</b></p>
+        </div>
+    </div>
+</div>
+@if (ViewBag.Foods != null)
+{
+    @for (int i = 0; i < ViewBag.Foods.Count; i++)
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <div class="d-flex-p">
+                    <p><b>@ViewBag.Foods[i]</b></p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="box-btn-m">
+                    <div class="form-group text-right">
+                        <select name="menusId" class="form-control col-1">
+                            @if (ViewBag.Products[i] != null)
+                            {
+                                @for (int j = 0; j < ViewBag.Products[i].Count; j++)
+                                {
+                                    <option value="@ViewBag.Products[i][j]">@ViewBag.Products[i][j]</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

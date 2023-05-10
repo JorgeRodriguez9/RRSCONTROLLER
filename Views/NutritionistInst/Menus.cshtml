@@ -17,87 +17,55 @@
 </div>
 
 <h1 style="margin-top: 20px;">Menus</h1>
-
-<div class="form-group text-left">
-    <label for="menuId" class="font-weight-bold">Menu:</label>
-    <select name="menuId" class="form-control col-1">
-        <option value="">Seleccionar una categoria</option>
-        @if (ViewBag.Category != null) //check if there are menus available
-        {
-            @for (int i = 0; i < ViewBag.Category.Count; i++)
+<form asp-action="Menus" asp-controller="NutritionistInst" method="post">
+    <div class="form-group text-left">
+        <label for="categoryId" class="font-weight-bold">Menu:</label>
+        <select name="categoryId" class="form-control col-1">
+            <option value="">Seleccionar una categoria</option>
+            @if (ViewBag.Category != null) //check if there are menus available
             {
-                <option value="@ViewBag.Category[i].Text">@ViewBag.Category[i].Text</option>
+                @for (int i = 0; i < ViewBag.Category.Count; i++)
+                {
+                    <option value="@ViewBag.Category[i].Text">@ViewBag.Category[i].Text</option>
+                }
             }
-        }
-    </select>
-</div>
+        </select>
+    </div>
 
-<div class="container-fluid no-padding-left">
-    <div class="row row-custom">
-        <div class="col-md-6 col-custom align-items-center d-flex flex-column box-column" id="checkbox-container">
-            @for (int i = 0; i < ViewBag.Complete.Count; i++)
-            {
-                <div class="box-container">
-                    <div class="box">
-                        <label class="box-btn">
-                            <input type="checkbox" name="selectedFoods" value="@ViewBag.Complete[i].Text" onclick="toggleAmount(this)">
-                            <span class="checkbox-label">Select</span>
-                        </label>
+    <div class="container-fluid no-padding-left">
+        <div class="row row-custom">
+            <div class="col-md-6 col-custom align-items-center d-flex flex-column box-column" id="checkbox-container">
+                @for (int i = 0; i < ViewBag.Complete.Count; i++)
+                {
+                    <div class="box-container">
+                        <div class="box">
+                            <label class="box-btn">
+                                <input type="checkbox" name="selectedMenus" value="@ViewBag.Complete[i].Text" data-id="@ViewBag.Complete[i].Value" onclick="toggleAmount(this)">
+                                <span class="checkbox-label">Adicionar</span>
+                            </label>
 
-                        <div class="MenuD text-center">@ViewBag.Complete[i].Text</div>
-                        <hr>
-                        <label class="box-btn-details">
-                            <button type="button" name="details" value="@ViewBag.Complete[i].Text" onclick="toggleAmountBoton(this)">Seleccionar</button>
-                            <span class="checkbox-label">Detalles</span>
-                        </label>
-                    </div>
-                </div>
-            }
-        </div>
-        <div id="selected-items-box" class="box-outline float-right" style="display:none;">
-            <div class="row">
-                <div class="col-md-12">
-                    <div id="parr-box">
-                        <p><b>Productos</b></p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="d-flex-p">
-                        <p><b>Productos</b></p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="box-btn-m">
-                        <div class="form-group text-right">
-                            <select name="menuId" class="form-control col-1">
-                                <option value="">Seleccionar una categoria</option>
-                                @if (ViewBag.Category != null)
-                                {
-                                    @for (int i = 0; i < ViewBag.Category.Count; i++)
-                                    {
-                                        <option value="@ViewBag.Category[i].Text">@ViewBag.Category[i].Text</option>
-                                    }
-                                }
-                            </select>
+                            <div class="MenuD text-center">@ViewBag.Complete[i].Text</div>
+                            <hr>
+                            <label class="box-btn-details">
+                                <button type="button" class="details-button" data-text="@ViewBag.Complete[i].Text" data-id="@ViewBag.Complete[i].Value">Seleccionar</button>
+                            </label>
                         </div>
                     </div>
-                </div>
+                }
             </div>
-        </div>
+            <div id="selected-items-box" class="box-outline float-right" style="display:none;">
+                @Html.Partial("_SelectedItemsBox")
+            </div>
 
+        </div>
     </div>
-</div>
 
      <div class="col-md-7">
     <div class="d-flex-pb">
                 <button type="submit" class="btn3 btn-light btn-lg marginBut" name="createRegister">PEDIR</button>
             </div>
-        </div>
-  </div>
-</div>
-
+     </div>
+</form>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -105,25 +73,37 @@
         $("#selected-items-box").hide();
     });
 
-    function toggleAmount(checkbox) {
-        var selectedItemsBox = $("#selected-items-box");
-        if ($(checkbox).is(":checked")) {
-            if ($(checkbox).attr('name') == "details") {
-                selectedItemsBox.show();
-            }
-        } else if ($("#checkbox-container input[name='details']:checked").length == 0) {
-            selectedItemsBox.hide();
-        }
-    }
 </script>
 
+
 <script>
-    function toggleAmountBoton(button) {
-        var selectedItemsBox = document.getElementById("selected-items-box");
-        if (selectedItemsBox.style.display === "none") {
+    $(document).ready(function () {
+        $('.details-button').click(function () {
+
+            var selectedItemsBox = document.getElementById("selected-items-box");
+
+            // mostrar el elemento "selected-items-box"
             selectedItemsBox.style.display = "block";
-        } else {
-            selectedItemsBox.style.display = "none";
-        }
-    }
+
+            var text = $(this).data('text');
+            var id = $(this).data('id');
+
+            // Realizar solicitud AJAX para actualizar los valores de ViewBag.Foods
+            $.ajax({
+                type: 'POST',
+                url: '/NutritionistInst/MyAction',
+                data: {
+                    text: text,
+                    id: id
+                },
+                success: function (result) {
+                    // Actualizar los valores de la vista
+                    $('#selected-items-box').html(result);
+                },
+                error: function (error) {
+                    alert('Hubo un error al actualizar los valores de la vista, Detalles del error: .' + error.status + ' ' + error.statusText);
+                }
+            });
+        });
+    });
 </script>

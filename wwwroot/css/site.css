@@ -232,14 +232,7 @@ body {
     margin-left: 7rem;
     font-size: 1.1rem;
     font-weight: 400;
-    line-height: 0.5;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    border: 1px solid #000000;
-    border-radius: 0.25rem;
-    background-color: #e4f1ff;
-    color: #f65706;
+   
 }
 
 .custom-class {

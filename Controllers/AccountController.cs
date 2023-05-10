@@ -17,9 +17,12 @@ namespace RRSCONTROLLER.Controllers
 
         public static string Var;
 
-        public AccountController(RSSCONTROLLERContext context)
+        private readonly IConfiguration _configuration;
+
+        public AccountController(RSSCONTROLLERContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         public IActionResult Login()
@@ -72,7 +75,10 @@ namespace RRSCONTROLLER.Controllers
         {
             try
             {
-                using(SqlConnection conn = new("Server= LAPTOP-JORGEROD\\SQLEXPRESS;Database=RRSCONTROLLER;Database=RRSCONTROLLER;TrustServerCertificate=True;Integrated Security=True"))
+
+                string conection = _configuration.GetConnectionString("Conn");
+
+                using (SqlConnection conn = new(conection))
                 {
                     using (SqlCommand cmd = new("sp_validar_usuario", conn))
                     {
