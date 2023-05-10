@@ -12,9 +12,10 @@
 <br />
 <br />
 
-
 <div class="container-fluid no-padding-left">
     <div class="row row-custom">
+        <form asp-action="RegisterRequest" asp-controller="NutritionistInst" method="post">
+
         <div class="col-md-5 d-flex">
             <div class="box">
                 @if (ViewBag.zero != null && ViewBag.selectedMenus != null)
@@ -38,19 +39,17 @@
             
         </div>
         <div class="col-md-6 margin">
-            <form asp-action="" asp-controller="" method="post">
-
-                @if (ViewBag.zero != null && ViewBag.selectFood != null && ViewBag.name != null && ViewBag.SelectCategory != null)
+           
+                @if (ViewBag.zero != null && ViewBag.selectedMenus != null)
                 {
-                    @for (int i = ViewBag.zero; i < ViewBag.selectFood.Count; i++)
+                    @for (int i = ViewBag.zero; i < ViewBag.selectedMenus.Count; i++)
                     {
-                        <input type="hidden" name="foods[]" value="@ViewBag.selectFood[i]">
+                        <input type="hidden" name="menus[]" value="@ViewBag.selectedMenus[i]">
                     }
-                    <input type="hidden" name="name" value="@ViewBag.name">
 
-                    <input type="hidden" name="category" value="@ViewBag.SelectCategory">
                 }
-                             
+        </div>
+            <div class="col label-container">
                 <div class=" marginDate2 text-center">
                     <div class="label-container"><h1><p>Solicitud</p></h1></div>
                 <p>Fecha de entrega:</p>                
@@ -58,9 +57,10 @@
                     <input type="text" id="fecha" name="fecha">
                 </div>                    
 
-                <button type="submit" class="btn btn-light btn-lg" name="createRegister">CREAR</button>
-            </form>
+                <button type="submit" class="btn btn-light btn-lg" name="createRegister">SOLICITAR</button>
+           
         </div>
+        </form>
     </div>
 </div>
 

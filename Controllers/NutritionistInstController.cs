@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using RRSCONTROLLER.Controllers;
 using RRSCONTROLLER.DAL;
 using RRSCONTROLLER.Models;
+using System.Globalization;
 using static RRSCONTROLLER.DAL.RSSCONTROLLERContext;
 
 namespace RRS_Controller.Controllers
@@ -31,14 +32,6 @@ namespace RRS_Controller.Controllers
         [Authorize(Roles = "Nutritionist Institution")]
         public ActionResult Menus()
         {
-            var menu = _context.MENUS.ToList();
-            var producList = menu.Select(p => new SelectListItem
-            {
-                Value = p.ID.ToString(),
-                Text = p.Name
-            }).ToList();
-            ViewBag.Complete = producList ?? new List<SelectListItem>();
-
             var cate = _context.CATEGORYS.ToList();
             var itemList = cate.Select(p => new SelectListItem
             {
@@ -54,8 +47,8 @@ namespace RRS_Controller.Controllers
         [HttpPost]
         public ActionResult Menus(string categoryId, List<string> selectedMenus)
         {
-            TempData.Remove("SuccessMessage");
-            TempData.Remove("Error");
+            TempData.Remove("SuccessMessageR");
+            TempData.Remove("ErrorR");
             ViewBag.selectedMenus = selectedMenus;
             ViewBag.SelectCategory = categoryId;
             ViewBag.zero = (int)DiccionaryB.X;
@@ -67,28 +60,28 @@ namespace RRS_Controller.Controllers
         {
             return View();
         }
-        /*
+        
         [Authorize(Roles = "Nutritionist Institution")]
         [HttpPost]
-        public async Task<IActionResult> RegisterRequest(List<string> foods, string name, string category)
+        public async Task<IActionResult> RegisterRequest(List<string> quantity, List<string> menus, string fecha)
         {
-            TempData.Remove("SuccessMessageM");
-            TempData.Remove("ErrorM");
+            TempData.Remove("SuccessMessageR");
+            TempData.Remove("ErrorR");
             int cont = (int)DiccionaryB.X;
             try
             {
                 string userName = HttpContext.Session.GetString("UserName");
                 var user = _context.USERS.FirstOrDefault(p => p.Name_User == userName).ID;
-                var nutritionistPae = _context.NUTRITIONITS_PAEs.FirstOrDefault(p => p.Id_User == user).ID;
+                var nutritionistInst = _context.NUTRITIONITS_INTSs.FirstOrDefault(p => p.Id_User == user).ID;
 
 
-                if (name != null && foods != null && category != null)
+                if (quantity != null && menus != null && fecha != null)
                 {
 
-                    for (int i = (int)DiccionaryB.X; i < foods.Count; i++)
+                    for (int i = (int)DiccionaryB.X; i < menus.Count; i++)
                     {
 
-                        if (foods[i] != null)
+                        if (menus[i] != null && quantity[i] != null && int.Parse(quantity[i]) > (int)DiccionaryB.X)
                         {
                         }
                         else
@@ -98,65 +91,78 @@ namespace RRS_Controller.Controllers
 
                     }
 
-                    if (foods.Count == (int)DiccionaryB.X)
+                    if (menus.Count == (int)DiccionaryB.X || quantity.Count == (int)DiccionaryB.X)
                     {
                         cont = (int)DiccionaryB.A;
                     }
 
                     if (cont == (int)DiccionaryB.X)
                     {
-                        var idcategory = _context.CATEGORYS.FirstOrDefault(p => p.Name == category).ID;
 
-                        var menu = new MENU
+                        var request = new REQUEST
                         {
-                            Name = name,
-                            Id_Category = idcategory,
-                            Id_Nutritionits_Pae = nutritionistPae
+                            Date = DateTime.ParseExact(fecha, "d-M-yyyy", CultureInfo.InvariantCulture),
+                            Status = "RECIBIDO",
+                            Desired_Delivery_Date = DateTime.Now,
+                            Id_Nutritionits_Ints = nutritionistInst
                         };
 
-                        _context.MENUS.Add(menu);
+                        _context.REQUESTS.Add(request);
                         await _context.SaveChangesAsync();
 
-                        for (int i = (int)DiccionaryB.X; i < foods.Count; i++)
-                        {
+                        var ultimoProducto = _context.REQUESTS.OrderByDescending(p => p.ID).FirstOrDefault();
 
-                            var menuFood = new MENU_FOOD
+                        if (ultimoProducto != null)
+                        {
+                            var id = ultimoProducto.ID;
+
+                            for (int i = (int)DiccionaryB.X; i < menus.Count; i++)
                             {
 
-                                Id_Menu = _context.MENUS.FirstOrDefault(u => u.Name == name).ID,
-                                Id_Food = _context.FOODS.FirstOrDefault(u => u.Name == foods[i]).ID,
-                            };
+                                var requestMenu = new REQUEST_MENU
+                                {
+                                    Id_Request = id,
+                                    Id_Menu = _context.MENUS.FirstOrDefault(u => u.Name == menus[i]).ID,
+                                    Amount = int.Parse(quantity[i])
+                                };
 
-                            _context.MENU_FOODS.Add(menuFood);
+                                _context.REQUEST_MENUS.Add(requestMenu);
+                            }
+
+                            await _context.SaveChangesAsync();
+                            TempData["SuccessMessageR"] = "La solicitud se ha creado correctamente se ha registrado exitosamente";
+                            return RedirectToAction("Menus");
                         }
-
-                        await _context.SaveChangesAsync();
-                        TempData["SuccessMessageM"] = "El menu se ha registrado exitosamente";
-                        return RedirectToAction("CreateMenu");
+                        else
+                        {
+                            TempData["ErrorR"] = "La solicitud no se guardo correctamente en la BD";
+                            return RedirectToAction("Menus");
+                        }
+                        
                     }
                     else
                     {
-                        TempData["ErrorM"] = "El menu le falta informacion";
-                        return RedirectToAction("CreateMenu");
+                        TempData["ErrorR"] = "La solicitud le falta informacion";
+                        return RedirectToAction("Menus");
                     }
 
                 }
                 else
                 {
 
-                    TempData["ErrorM"] = "El menu le falta informacion";
-                    return RedirectToAction("CreateMenu");
+                    TempData["ErrorR"] = "La solicitud le falta informacion";
+                    return RedirectToAction("Menus");
 
                 }
 
             }
             catch (System.Exception e)
             {
-                TempData["ErrorM"] = "Error al guardar en la BD";
-                return RedirectToAction("CreateMenu");
+                TempData["ErrorR"] = "Error al guardar en la BD";
+                return RedirectToAction("Menus");
             }
         }
-        */
+        
 
 
         [Authorize(Roles = "Nutritionist Institution")]
@@ -221,6 +227,22 @@ namespace RRS_Controller.Controllers
 
             return PartialView("_SelectedItemsBox");
 
+        }
+
+        [HttpPost]
+        public IActionResult GetMenu(string menuCategory)
+        {
+
+            var category = _context.CATEGORYS.FirstOrDefault(u => u.Name == menuCategory).ID;
+            var menu = _context.MENUS.ToList();
+            var filteredMenu = menu.Where(r => r.Id_Category == category);
+            var producList = filteredMenu.Select(p => new SelectListItem
+            {
+                Value = p.ID.ToString(),
+                Text = p.Name
+            }).ToList();
+            ViewBag.Complete = producList ?? new List<SelectListItem>();
+            return PartialView("_MenuInformation");
         }
 
     }

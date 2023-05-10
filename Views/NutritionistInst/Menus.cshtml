@@ -20,7 +20,7 @@
 <form asp-action="Menus" asp-controller="NutritionistInst" method="post">
     <div class="form-group text-left">
         <label for="categoryId" class="font-weight-bold">Menu:</label>
-        <select name="categoryId" class="form-control col-1">
+        <select name="categoryId" class="form-control col-1" onchange="showMenuInformation()">
             <option value="">Seleccionar una categoria</option>
             @if (ViewBag.Category != null) //check if there are menus available
             {
@@ -32,39 +32,11 @@
         </select>
     </div>
 
-    <div class="container-fluid no-padding-left">
-        <div class="row row-custom">
-            <div class="col-md-6 col-custom align-items-center d-flex flex-column box-column" id="checkbox-container">
-                @for (int i = 0; i < ViewBag.Complete.Count; i++)
-                {
-                    <div class="box-container">
-                        <div class="box">
-                            <label class="box-btn">
-                                <input type="checkbox" name="selectedMenus" value="@ViewBag.Complete[i].Text" data-id="@ViewBag.Complete[i].Value" onclick="toggleAmount(this)">
-                                <span class="checkbox-label">Adicionar</span>
-                            </label>
-
-                            <div class="MenuD text-center">@ViewBag.Complete[i].Text</div>
-                            <hr>
-                            <label class="box-btn-details">
-                                <button type="button" class="details-button" data-text="@ViewBag.Complete[i].Text" data-id="@ViewBag.Complete[i].Value">Seleccionar</button>
-                            </label>
-                        </div>
-                    </div>
-                }
-            </div>
-            <div id="selected-items-box" class="box-outline float-right" style="display:none;">
-                @Html.Partial("_SelectedItemsBox")
-            </div>
-
-        </div>
+    <div id="menu-information">
+        @Html.Partial("_MenuInformation")
     </div>
 
-     <div class="col-md-7">
-    <div class="d-flex-pb">
-                <button type="submit" class="btn3 btn-light btn-lg marginBut" name="createRegister">PEDIR</button>
-            </div>
-     </div>
+
 </form>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -77,33 +49,32 @@
 
 
 <script>
-    $(document).ready(function () {
-        $('.details-button').click(function () {
+     function showMenuInformation() {
+         var selectedMenu = $("select[name='categoryId'] option:selected").val();
+         if (selectedMenu != "") {
+             $.ajax({
+                 type: "POST",
+                 url: "/NutritionistInst/GetMenu?menuCategory=" + selectedMenu,
+                 success: function (data) {
+                     $("#menu-information").html(data);
+                 },
+                 error: function (error) {
+                     console.log(error);
+                 }
+             });
+         } else {
+             $("#menu-information").html("");
+         }
+     }
+</script>
+<script>
+    window.onload = function () {
+        if ('@TempData.ContainsKey("SuccessMessageR")' == "True") {
+            alert('@TempData["SuccessMessageR"]');
+        }
+        if ('@TempData.ContainsKey("ErrorR")' == "True") {
+            alert('@TempData["ErrorR"]');
 
-            var selectedItemsBox = document.getElementById("selected-items-box");
-
-            // mostrar el elemento "selected-items-box"
-            selectedItemsBox.style.display = "block";
-
-            var text = $(this).data('text');
-            var id = $(this).data('id');
-
-            // Realizar solicitud AJAX para actualizar los valores de ViewBag.Foods
-            $.ajax({
-                type: 'POST',
-                url: '/NutritionistInst/MyAction',
-                data: {
-                    text: text,
-                    id: id
-                },
-                success: function (result) {
-                    // Actualizar los valores de la vista
-                    $('#selected-items-box').html(result);
-                },
-                error: function (error) {
-                    alert('Hubo un error al actualizar los valores de la vista, Detalles del error: .' + error.status + ' ' + error.statusText);
-                }
-            });
-        });
-    });
+        }
+    };
 </script>
