@@ -79,12 +79,17 @@ body {
     margin-bottom: 5px;
 }
 
+.label-container label-2 {
+    margin-bottom: 25px;
+}
+
 .box {
     border: 1px solid black;
     padding: 10px;
     margin: 10px;
     flex: 1;
 }
+
 
 .short-input {
     width: 9em;
@@ -154,6 +159,13 @@ body {
     margin-top: 150px;
 }
 
+.marginDate {
+    margin-top: -80px;
+}
+.marginDate2 {
+    margin-bottom: 10px;
+}
+
 .boxTitle {
     border: 2px solid white;
     display: flex;
@@ -184,6 +196,10 @@ body {
 
 .box-column {
     margin-left: 0;
+}
+
+.box-column {
+    margin-left: -10px;
 }
 
 .box-container {
@@ -259,7 +275,7 @@ body {
 }
 
 .d-flex-pb {
-    margin-left: 880px;
+    margin-left: 800px;
 }
 
 .box-btn-details button.active {
@@ -268,15 +284,74 @@ body {
 
 #selected-items-box {
     position: absolute;
-    top: 27%;
-    right: 5%;
+    top: 50%;
+    right: 10%;
     bottom: 0;
     width: 50%;
-    background-color: white;
+    background-color: #62b4f1;
     padding: 20px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    transform: translateY(-50%);
+    z-index: 10;
+    height: auto;
+    max-height: 210px; 
+    overflow-y: auto;
 }
 
     #selected-items-box select {
-        width: 160%;
+        width: 160%;       
     }
+
+.header-row {
+    background-color: #d1f8ff;
+    font-weight: bold;
+    color: #dc720d
+}
+
+#solicitud-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 40%;
+    position: absolute;
+    top: 30px; /* ajusta la altura según tu diseño */
+    right: 190px;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+#selected-items-container {
+    max-width: 800px;
+}
+
+.align-items-end {
+    align-items: flex-end;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+/*//////*/
+
+.quantity input[type="number"] {
+    width: 30%;
+    height: 40px;
+    line-height: 1.65;
+    display: block;
+    padding: 0 10px;
+    border: 1px solid #f65706;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    margin-left: 220px; /* ajusta este valor según sea necesario */
+}
+
+.label-container {
+    margin-top: -180px;
+    margin-bottom: 100px;
+}
