@@ -30,6 +30,27 @@ namespace RRSCONTROLLER.Controllers
             return View();
         }
 
+        public IActionResult Enviar()
+        {
+            var menu = _context.MENUS.ToList();
+            var producList = menu.Select(p => new SelectListItem
+            {
+                Value = p.ID.ToString(),
+                Text = p.Name
+            }).ToList();
+            ViewBag.Menu = producList ?? new List<SelectListItem>();
+
+            var amount = _context.REQUEST_MENUS.ToList();
+            var iLList = amount.Select(q => new SelectListItem
+            {
+                Value = q.ID.ToString(),
+                Text = q.Amount.ToString()
+            }).ToList();
+            ViewBag.Amount = iLList ?? new List<SelectListItem>();
+
+            return View();
+        }
+
         [Authorize(Roles = "Admin Pae")]
         public async Task<IActionResult> Exit()
         {

@@ -1,5 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Registrar Slicitud";
+﻿<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+@{
+    ViewData["Title"] = "register Request";
 }
 
 
@@ -11,19 +13,29 @@
 <br />
 
 
-<div class="container">
-    <div class="row">
+<div class="container-fluid no-padding-left">
+    <div class="row row-custom">
         <div class="col-md-5 d-flex">
             <div class="box">
                 @if (ViewBag.zero != null && ViewBag.selectedMenus != null)
                 {
-                    @for (int i = ViewBag.zero; i < ViewBag.selectedMenus.Count; i++)
-                    {
-                        <div class="food">@ViewBag.selectedMenus[i]</div>
-                        <hr>
-                    }
+                    <table>
+                        @for (int i = ViewBag.zero; i < ViewBag.selectedMenus.Count; i++)
+                        {
+                            <tr>
+                                <td class="food">@ViewBag.selectedMenus[i]</td>
+                                <td>
+                                    <div class="quantity">                                       
+                                        <input type="number" name="quantity[]" value="0" data-id="@i">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr><td colspan="2"><hr></td></tr>
+                        }
+                    </table>
                 }
             </div>
+            
         </div>
         <div class="col-md-6 margin">
             <form asp-action="" asp-controller="" method="post">
@@ -38,8 +50,71 @@
 
                     <input type="hidden" name="category" value="@ViewBag.SelectCategory">
                 }
+                             
+                <div class=" marginDate2 text-center">
+                    <div class="label-container"><h1><p>Solicitud</p></h1></div>
+                <p>Fecha de entrega:</p>                
+                    <label for="fecha"></label>
+                    <input type="text" id="fecha" name="fecha">
+                </div>                    
+
                 <button type="submit" class="btn btn-light btn-lg" name="createRegister">CREAR</button>
             </form>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    flatpickr("#fecha", {
+        dateFormat: "d-m-Y",
+        minDate: "today",
+        maxDate: new Date().fp_incr(60),
+        enable: [
+            {
+                from: "today",
+                to: new Date().fp_incr(60),
+            },
+        ],
+        clickOpens: true, // Permite abrir el calendario al hacer clic en el campo de entrada
+        locale: {
+            firstDayOfWeek: 1, // Lunes como primer día de la semana
+            weekdays: {
+                shorthand: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+                longhand: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+            },
+            months: {
+                shorthand: [
+                    "Ene",
+                    "Feb",
+                    "Mar",
+                    "Abr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Ago",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dic",
+                ],
+                longhand: [
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Agosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Diciembre",
+                ],
+            },
+        },
+    });
+</script>
+
+
