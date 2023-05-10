@@ -160,7 +160,7 @@ body {
 }
 
 .marginDate {
-    margin-top: -80px;
+    margin-left: 0px;
 }
 .marginDate2 {
     margin-bottom: 0px;
@@ -352,7 +352,24 @@ body {
 }
 
 .label-container {
-    margin-top: -180px;
+    margin-top: -400px;
     margin-bottom: 100px;
-    margin-left: 380px;
+    margin-left: 580px;
+}
+
+.label-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.marginDate3 {
+    margin-top: 50px;
+    margin-left: 670px;
+}
+
+.btn-lgPe {
+    margin-left: 720px;
 }
