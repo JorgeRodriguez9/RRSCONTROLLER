@@ -348,10 +348,11 @@ body {
     -webkit-appearance: none;
     -moz-appearance: textfield;
     appearance: textfield;
-    margin-left: 220px; /* ajusta este valor según sea necesario */
+    margin-left: 180px; /* ajusta este valor según sea necesario */
 }
 
 .label-container {
     margin-top: -180px;
     margin-bottom: 100px;
+    margin-left: px;
 }
