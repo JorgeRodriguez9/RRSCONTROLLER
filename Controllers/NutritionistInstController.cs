@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -101,9 +103,9 @@ namespace RRS_Controller.Controllers
 
                         var request = new REQUEST
                         {
-                            Date = DateTime.ParseExact(fecha, "d-M-yyyy", CultureInfo.InvariantCulture),
+                            Date = DateTime.Now,
                             Status = "RECIBIDO",
-                            Desired_Delivery_Date = DateTime.Now,
+                            Desired_Delivery_Date = DateTime.ParseExact(fecha, "d-M-yyyy", CultureInfo.InvariantCulture),
                             Id_Nutritionits_Ints = nutritionistInst
                         };
 
@@ -243,6 +245,13 @@ namespace RRS_Controller.Controllers
             }).ToList();
             ViewBag.Complete = producList ?? new List<SelectListItem>();
             return PartialView("_MenuInformation");
+        }
+
+        [Authorize(Roles = "Nutritionist Institution")]
+        public async Task<IActionResult> Exit()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Account");
         }
 
     }

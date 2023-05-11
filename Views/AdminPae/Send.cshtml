@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Enviar";
+}
+
+
+<div class="text-center">
+    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" style="width: 55%;" />
+</div>
+
+<br />
+<br />
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+<div>
+ 
+    <div class="box">
+        <h2 class="solicitud-titulo">MENUS SOLICITADOS:</h2>
+        <br />
+        @if (ViewBag.zero != null && ViewBag.selectFood != null)
+        {
+            @for (int i = ViewBag.zero; i < ViewBag.selectFood.Count; i++)
+            {
+                <div class="food">@ViewBag.selectFood[i]</div>
+                <hr>
+            }
+        }
+    </div>
+             
+</div>
+    <div>
+        <center><h2 class="solicitud-titulo">SOLICITUD</h2></center>
+        <br />
+        <h4>* Fecha Deseada: @ViewBag.fecha</h4>
+        <br>
+        <div class="col-md-6">
+            <h4 class="text-right">* APROBAR:</h4>
+        </div>
+        <div class="col-md-6">
+            <form asp-action="Send" asp-controller="AdminPae" method="post">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question" id="respuesta4" value="SI" onchange="mostrarTextarea()">
+                    <label class="form-check-label" for="respuesta4">
+                        SI
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question" id="respuesta5" value="NO" onchange="ocultarTextarea()">
+                    <label class="form-check-label" for="respuesta5">
+                        NO
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="miTextarea">* Transporte:</label>
+                    <textarea class="form-control" id="myText" name="myText" disabled></textarea>
+                </div>
+                <input type="hidden" name="id" value="@ViewBag.idR">
+                <div class="my-2 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Enviar respuestas</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function mostrarTextarea() {
+        document.getElementById("myText").disabled = false;
+    }
+
+    function ocultarTextarea() {
+        const textarea = document.getElementById("myText");
+        textarea.value = ""; 
+        textarea.disabled = true;
+    }
+</script>

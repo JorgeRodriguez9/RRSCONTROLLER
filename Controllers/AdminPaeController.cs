@@ -8,6 +8,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using static RRSCONTROLLER.DAL.RSSCONTROLLERContext;
+using Azure.Core;
 
 namespace RRSCONTROLLER.Controllers
 {
@@ -234,6 +235,200 @@ namespace RRSCONTROLLER.Controllers
                 return RedirectToAction("UserRegister");
             }
           
+        }
+
+
+        [Authorize(Roles = "Admin Pae")]
+        public IActionResult Requests()
+        {
+            var request = _context.REQUESTS.ToList();
+            var units = _context.UNITS.ToList();
+            var nut = _context.NUTRITIONITS_INTSs.ToList();
+            var send = _context.SHIPMENTS.ToList();
+            var impList = new List<string>();
+            var sdList = new List<string>();
+
+            var filterRequest = request.Where(r => r.Status == "RECIBIDO");
+            var filterSend = send.Where(r => r.Status == "ENVIADO");
+
+            // Mapear los proveedores a una lista de SelectListItem
+            var requestList = filterRequest.Select(p => new SelectListItem
+            {
+                Value = p.Id_Nutritionits_Ints.ToString(),
+                Text = p.Date.ToString("dd/MM/yyyy"),
+            }).ToList();
+
+            var sendList = filterSend.Select(p => new SelectListItem
+            {
+                Value = p.Id_Request.ToString(),
+                Text = p.Date.ToString("dd/MM/yyyy")
+            }).ToList();
+
+            var sList = filterSend.Select(p => new SelectListItem
+            {
+                Value = p.ID.ToString(),
+            }).ToList();
+
+            for (int i = (int)DiccionaryB.X; i < sendList.Count; i++)
+            {
+                var req = request.FirstOrDefault(u => u.ID == int.Parse(sendList[i].Value)).Id_Nutritionits_Ints;
+                var nuti = nut.FirstOrDefault(u => u.ID == req).Id_Institution;
+                var instText = _context.INSTITUTIONS.FirstOrDefault(u => u.ID == nuti).Name;
+                sdList.Add(instText + "- Pedido; fecha de enviado: " + sendList[i].Text);
+            }
+
+            var reqList = filterRequest.Select(p => new SelectListItem
+            {
+                Value = p.ID.ToString(),
+            }).ToList();
+
+            for (int i = (int)DiccionaryB.X; i < requestList.Count; i++)
+            {
+                var inst = nut.FirstOrDefault(u => u.ID == int.Parse(requestList[i].Value)).Id_Institution;
+                var instText = _context.INSTITUTIONS.FirstOrDefault(u => u.ID == inst).Name;
+                impList.Add(instText + "- Pedido; fecha: " + requestList[i].Text);
+            }
+
+            ViewBag.ID = reqList;
+            ViewBag.request = impList;
+            ViewBag.sd = sdList;
+            ViewBag.idS = sList;
+            ViewBag.c = (int)DiccionaryB.X;
+
+            return View();
+        }
+
+        // GET: Tripulants/Details/5
+        [Authorize(Roles = "Admin Pae")]
+        public async Task<IActionResult> Send(string id)
+        {
+            var menusR = _context.REQUEST_MENUS.ToList();
+            var date = _context.REQUESTS.FirstOrDefault(u => u.ID == int.Parse(id)).Desired_Delivery_Date.ToString("dd/MM/yyyy");
+            var impList = new List<string>();
+
+            var filteredMenus = menusR.Where(u => u.Id_Request == int.Parse(id));
+            var requestList = filteredMenus.Select(p => new SelectListItem
+            {
+                Value = p.Id_Menu.ToString(),
+                Text = p.Amount.ToString()
+            }).ToList();
+
+            for (int i = (int)DiccionaryB.X; i < requestList.Count; i++)
+            {
+                var menu = _context.MENUS.FirstOrDefault(u => u.ID == int.Parse(requestList[i].Value)).Name;
+                impList.Add(requestList[i].Text + " - " + menu);
+            }
+
+            ViewBag.selectFood = impList;
+            ViewBag.zero = (int)DiccionaryB.X;
+            ViewBag.fecha = date;
+            ViewBag.idR = id;
+
+            return View();
+        }
+        [Authorize(Roles = "Admin Pae")]
+        public async Task<IActionResult> Deliver(string id)
+        {
+            try
+            {
+                TempData.Remove("SuccessMessageS");
+                TempData.Remove("ErrorS");
+
+                if (id != null)
+                {
+                    var ship = _context.SHIPMENTS.FirstOrDefault(u => u.ID == int.Parse(id));
+
+                    ship.Status = "ENTREGADO";
+
+                    _context.SHIPMENTS.Update(ship);
+
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessageS"] = "Se notifico que el envio fue enviado";
+                    return RedirectToAction("Requests");
+                }
+                else
+                {
+                    TempData["ErrorS"] = "ERROR";
+                    return RedirectToAction("Requests");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorS"] = "Error en la Base de Datos";
+                return RedirectToAction("Requests");
+            }
+
+        }
+
+        [Authorize(Roles = "Admin Pae")]
+        [HttpPost]
+        public async Task<IActionResult> Send(string question, string myText, string id)
+        {
+            try {
+                TempData.Remove("SuccessMessageS");
+                TempData.Remove("ErrorS");
+                string userName = HttpContext.Session.GetString("UserName");
+                var userA = _context.USERS.FirstOrDefault(p => p.Name_User == userName).ID;
+                var admin = _context.ADMIN_PAEs.FirstOrDefault(p => p.Id_User == userA).ID;
+
+                if (question != null && id != null)
+                {
+
+                    var request = _context.REQUESTS.FirstOrDefault(u => u.ID == int.Parse(id));
+
+                    if (question == "NO")
+                    {
+
+                        request.Status = "NO APROBADO";
+                        _context.REQUESTS.Update(request);
+
+                        await _context.SaveChangesAsync();
+
+                        TempData["SuccessMessageS"] = "La solicitud ya fue negada";
+                        return RedirectToAction("Requests");
+                    }
+                    else
+                    {
+                        if (myText != null)
+                        {
+                            var shipment = new SHIPMENT
+                            {
+                                Date = DateTime.Now,
+                                Status = "ENVIADO",
+                                Transport = myText,
+                                Id_Request = int.Parse(id),
+                                Id_Admin_Pae = admin
+
+                            };
+
+                            request.Status = "APROBADO";
+                            _context.REQUESTS.Update(request);
+                            _context.SHIPMENTS.Add(shipment);
+
+                            await _context.SaveChangesAsync();
+                            TempData["SuccessMessageS"] = "La solicitud ya fue enviada";
+                            return RedirectToAction("Requests");
+                        }
+                        else
+                        {
+                            TempData["ErrorS"] = "Te falta informacion del transporte";
+                            return RedirectToAction("Requests");
+                        }
+                    }
+
+                }
+                else
+                {
+                    TempData["ErrorS"] = "Te falta informacion para hacer el envio";
+                    return RedirectToAction("Requests");
+                }
+            }
+            catch(Exception e) {
+                TempData["ErrorS"] = "Error al guardar en la Base de Datos";
+                return RedirectToAction("Requests");
+            }
+            
+
         }
 
         [Authorize(Roles = "Admin Pae")]
