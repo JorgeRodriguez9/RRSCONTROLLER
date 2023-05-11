@@ -1,24 +1,37 @@
-﻿@{
-    ViewData["Title"] = "Reports";
-}
+﻿
 
-<h1>Reports</h1>
+<div class="top_Title">
 
-<br>
-<h2>List of Reports</h2>
-<table class="table">
-    <thead>
+    @{
+        ViewData["Title"] = "Order Status";
+    }
+
+</div>
+
+<!--<div class = "text-white">-->
+<h3>@ViewData["Title"] </h3>
+<!--</div>-->
+
+<div class="text-center">
+    <img src="~/images/RRS-Controller.jpeg" alt="My image" />
+</div>
+
+<table>
+    <tr class="tableTitle">
+        <th>Requests</th>
+        <th>State</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
         <tr>
-            <th>Shipping</th>
-            <th>Report</th>
+            <a class="btn btn-primary btn-sm" href="/Models/Edit?id=">View</a>
+            <td>@item.Value1</td>
+            <td>@item.Value2</td>
         </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td></td>
-            <td>
-                <a class="btn btn-primary btn-sm" href="/Models/Edit?id=">View</a>
-            </td>
-        </tr>
-    </tbody>
+    }
 </table>
+
+
+              
+          
