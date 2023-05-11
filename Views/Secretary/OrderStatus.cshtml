@@ -1,32 +1,57 @@
 ﻿
-
 <div class="top_Title">
 
     @{
-        ViewData["Title"] = "Order Status";
+        ViewData["Title"] = "Estado de ornedenes";
     }
 
 </div>
 
-<!--<div class = "text-white">-->
-<h3>@ViewData["Title"] </h3>
-<!--</div>-->
-
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="Secretary" asp-action="HomeSecretary">Volver</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+</header>
 <div class="text-center">
-    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" />
+    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" style="width: 55%;" />
 </div>
-
-<table>
-    <tr class="tableTitle">
-        <th>Requests</th>
-        <th>State</th>
-    </tr>
-
-    @foreach (var item in Model)
+<br />
+<center>
+     @if (ViewBag.info != null && ViewBag.c != null && ViewBag.status != null )
     {
-        <tr>
-            <td>@item.Value1</td>
-            <td>@item.Value2</td>
-        </tr>
+        @if (ViewBag.info.Count != ViewBag.c)
+        {
+            <div class="table-container">
+
+                <table class="table-style">
+                    <thead>
+                        <tr>
+                            <th class="first-column">SOLICITUDES</th>
+                            <th class="first-column">ESTADO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @for (int i = ViewBag.info.Count - ViewBag.u; i >= ViewBag.c; i--)
+                        {
+                            <tr>
+                                <td>@ViewBag.info[i]</td>
+                            <td>
+                                @ViewBag.status[i]
+                            </td>
+                        </tr>
+                    }
+
+                    </tbody>
+                </table>
+         
+            </div>
+        }
     }
-</table>
+</center>
