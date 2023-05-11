@@ -3,41 +3,35 @@
 <div class="top_Title">
 
     @{
-        ViewData["Title"] = "Received";
+        ViewData["Title"] = "Evaluacion";
     }
 
 </div>
 
 <!--<div class = "text-white">-->
-<h3>@ViewData["Title"] </h3>
+<h6>@ViewData["Title"] </h6>
 <!--</div>-->
 
 <div class="text-center">
-    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" />
+    <img src="~/images/RRS-Controller.jpeg" alt="My Image" />
 </div>
 
 <div class="row justify-content-center marginP">
     <div class="col-md-6">
-        <h4 class="text-right">Pregunta 1</h4>
+        <h4 class="text-right">¿El pedido fue recibido?</h4>
     </div>
     <div class="col-md-6">
         <form method="post" action="/Respuestas">
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="pregunta1" id="respuesta1" value="respuesta1">
+                <input class="form-check-input" type="radio" name="¿El pedido fue recibido?" id="respuesta1" value="Si">
                 <label class="form-check-label" for="respuesta1">
-                    Respuesta 1
+                    Si
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="pregunta1" id="respuesta2" value="respuesta2">
+                <input class="form-check-input" type="radio" name="¿El pedido fue recibido?" id="respuesta2" value="No">
                 <label class="form-check-label" for="respuesta2">
-                    Respuesta 2
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="pregunta1" id="respuesta3" value="respuesta3">
-                <label class="form-check-label" for="respuesta3">
-                    Respuesta 3
+                    No
                 </label>
             </div>
         </form>
@@ -46,42 +40,67 @@
 
 <hr>
 
-<div class="row justify-content-center">
+<div class="row justify-content-center marginP">
     <div class="col-md-6">
-        <h4 class="text-right">Pregunta 2</h4>
+        <h4 class="text-right">Cantidad correcta</h4>
     </div>
     <div class="col-md-6">
         <form method="post" action="/Respuestas">
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="pregunta2" id="respuesta4" value="respuesta4">
+                <input class="form-check-input" type="radio" name="Cantidad correcta" id="respuesta3" value="Si">
+                <label class="form-check-label" for="respuesta3">
+                    Si
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Cantidad correcta" id="respuesta4" value="No">
                 <label class="form-check-label" for="respuesta4">
-                    Respuesta 4
+                    No
                 </label>
             </div>
+        </form>
+    </div>
+</div>
+
+<hr>
+
+<div class="row justify-content-center marginP">
+    <div class="col-md-6">
+        <h4 class="text-right">Estado de los productos</h4>
+    </div>
+    <div class="col-md-6">
+        <form method="post" action="/Respuestas">
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="pregunta2" id="respuesta5" value="respuesta5">
+                <input class="form-check-input" type="radio" name="Estado de los productos" id="respuesta5" value="Buen estado">
                 <label class="form-check-label" for="respuesta5">
-                    Respuesta 5
+                    Buen estado
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="pregunta2" id="respuesta6" value="respuesta6">
+                <input class="form-check-input" type="radio" name="Estado de los productos" id="respuesta6" value="Regular">
                 <label class="form-check-label" for="respuesta6">
-                    Respuesta 6
+                    Regular
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Estado de los productos" id="respuesta7" value="Mal estado">
+                <label class="form-check-label" for="respuesta7">
+                    Mal estado
                 </label>
             </div>
 
-            <div class=" marginP ">
+            <div class=" marginP ml-3">
                 <label for="fecha">Fecha:</label>
                 <input type="text" id="fecha" name="fecha">
             </div>
 
-            <div class="my-2 d-flex justify-content-center">
+            <div class="my-2 d-flex">
                 <button type="submit" class="btn btn-primary">Enviar respuestas</button>
             </div>
         </form>
     </div>
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>

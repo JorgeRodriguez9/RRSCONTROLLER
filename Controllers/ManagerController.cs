@@ -79,6 +79,12 @@ namespace RRSCONTROLLER.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Manager")]
+        public IActionResult InstitutionReport()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
