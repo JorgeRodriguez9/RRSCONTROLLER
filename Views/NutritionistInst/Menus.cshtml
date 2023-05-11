@@ -1,19 +1,24 @@
 ﻿@model IEnumerable<RRSCONTROLLER.Models.MENU>
 
-<div class="top_Title">
+@{
+    ViewData["Title"] = "Menus";
+}
 
-    @{
-        ViewData["Title"] = "Menus";
-    }
 
-</div>
-
-<!--<div class = "text-white">-->
-<h3>@ViewData["Title"] </h3>
-<!--</div>-->
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="NutritionistInst" asp-action="HomeNutritionistINST">Volver</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+</header>
 
 <div class="text-center">
-    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" />
+    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" style="width: 55%;" />
 </div>
 
 <h1 style="margin-top: 20px;">Menus</h1>

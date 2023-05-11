@@ -373,3 +373,25 @@ body {
 .btn-lgPe {
     margin-left: 720px;
 }
+.table-container {
+    margin-left: auto; /* centra horizontalmente el contenedor */
+    margin-right: auto; /* centra horizontalmente el contenedor */
+
+}
+.table-style {
+    border-collapse: collapse;
+    margin: 20px;
+}
+
+.table-style th,
+.table-style td {
+    padding: 10px;
+    border: 1px solid black;
+}
+.table-style th.first-column {
+    background-color: #62b4f1; /* establece el fondo de la primera columna */
+    text-align: center; /* centra el texto en la primera columna */
+}
+.solicitud-titulo {
+    color: red;
+}

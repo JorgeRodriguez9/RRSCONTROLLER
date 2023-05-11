@@ -1,0 +1,76 @@
+﻿<div class="top_Title">
+    @{
+        ViewData["Title"] = "Requests";
+    }
+</div>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="AdminPae" asp-action="HomeAdministrator">Volver</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+</header>
+<div class="text-center">
+    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" style="width: 55%;" />
+</div>
+<br />
+<center>
+<div class="table-container">
+    <table class="table-style">
+        <thead>
+            <tr>
+                <th class="first-column">SOLICITUDES</th>
+                <th class="first-column">ACCION</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.request != null && ViewBag.c != null)
+            {
+                @for (int i = ViewBag.c; i < ViewBag.request.Count; i++)
+                {
+                    <tr>
+                        <td>@ViewBag.request[i]</td>
+                        <td>
+                             <center><a asp-action="Send" asp-route-id="@ViewBag.ID[i].Value">VER</a></center>
+                        </td>
+                    </tr>
+                }
+            }
+            @if (ViewBag.sd != null && ViewBag.c != null)
+            {
+               @for (int i = ViewBag.c; i < ViewBag.sd.Count; i++)
+                {
+                    <tr>
+                        <td>@ViewBag.sd[i]</td>
+                        <td>
+                            ENVIADO
+                            <a asp-action="Deliver" asp-route-id="@ViewBag.idS[i].Value"> NOTIFICAR ENTREGA</a>
+                        </td>
+                    </tr>
+                }
+            }
+            </tbody>
+    </table>
+</div>
+</center>
+
+<script>
+    window.onload = function () {
+        if ('@TempData.ContainsKey("SuccessMessageS")' == "True") {
+            alert('@TempData["SuccessMessageS"]');
+        }
+        if ('@TempData.ContainsKey("ErrorS")' == "True") {
+            alert('@TempData["ErrorS"]');
+        }
+    };
+</script>
+
+
+
+
+
+
