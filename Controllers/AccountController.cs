@@ -228,7 +228,7 @@ namespace RRSCONTROLLER.Controllers
                     MailMessage msg = new MailMessage();
                     msg.To.Add("soporterrscontroller274@gmail.com");
                     msg.From = new MailAddress("shopping card..<soporterrscontroller274@gmail.com>");//<Carlitos en el video dice company que creo que es gmail pero no estoy seguro y emailId osea el mismo correo de linea 47 dentro de los dimantes minuto 19:20 del video>
-                    msg.Subject = "Your Password";
+                    msg.Subject = "Solicitud Recuperacion de Contraseña";
                     msg.Body = sb.ToString();
                     client.Send(msg);
                     ViewBag.msg = "Solicitud de Recuperacion Enviada";
