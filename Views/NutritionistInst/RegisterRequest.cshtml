@@ -55,11 +55,11 @@
                 </div>
 
                 <div class="marginDate3">
-                    <label for="fecha">Fecha de entrega:</label>
-                    <input type="text" id="fecha" name="fecha">
+                    <label for="date">Fecha de entrega deseada:</label>
+                    <input type="text" id="date" name="date">
                 </div>
 
-                <button type="submit" class="btn btn-light btn-lgPe" name="createRegister">SOLICITAR</button>
+                <button type="submit" class="btn btn-primary btn-lgPe" name="createRegister">SOLICITAR</button>
            
              </div>
         </form>
@@ -68,7 +68,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-    flatpickr("#fecha", {
+    flatpickr("#date", {
         dateFormat: "d-m-Y",
         minDate: "today",
         maxDate: new Date().fp_incr(60),

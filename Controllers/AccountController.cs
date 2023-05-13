@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using RRSCONTROLLER.DAL;
 using RRSCONTROLLER.Models;
+using System.Net.Mail;
+using System.Net;
 using System.Security.Claims;
+using System.Text;
 using static RRSCONTROLLER.DAL.RSSCONTROLLERContext;
 
 namespace RRSCONTROLLER.Controllers
@@ -25,6 +28,7 @@ namespace RRSCONTROLLER.Controllers
             _configuration = configuration;
         }
 
+        //Method that serves to maintain a role on the page without leaving it unless the user wants it
         public IActionResult Login()
         {
             ClaimsPrincipal c = HttpContext.User;
@@ -70,6 +74,7 @@ namespace RRSCONTROLLER.Controllers
             return View();
         }
 
+        //Method that validates password and user in the DB and also find out what type of role is the user who registered
         [HttpPost]
         public async Task<IActionResult> Login(USER u)
         {
@@ -110,14 +115,13 @@ namespace RRSCONTROLLER.Controllers
                                 p.IsPersistent = u.MaintainActive;
 
                                 if (!u.MaintainActive)
-                                    p.ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10);
+                                    p.ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(((int)DiccionaryB.E * (int)DiccionaryB.D));
                                 else
-                                    p.ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(50);
+                                    p.ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(((int)DiccionaryB.E * (int)DiccionaryB.E) * (int)DiccionaryB.B);
 
                                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(ci), p);
 
                                 HttpContext.Session.SetString("UserName", u.Name_User);
-
 
                                 Var = u.Name_User;
 
@@ -142,16 +146,15 @@ namespace RRSCONTROLLER.Controllers
                                     return RedirectToAction("HomeSecretary", "Secretary");
                                 }
 
-
-
                             }
                             else
                             {
-                                ViewBag.Error = "Incorrect credentials or unregistered account.";
+                                ViewBag.Error = "Datos Incorrectos.";
                             }
                         }
                         conn.Close();
                     }
+                    ViewBag.Error = "Datos Incorrectos.";
                     return View();
                 }
             }
@@ -161,7 +164,94 @@ namespace RRSCONTROLLER.Controllers
                 return View();
             }
         }
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+
+        public IActionResult RecoverPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RecoverPassword(string user)
+        {
+            try
+            {
+                var idUser = _context.USERS.FirstOrDefault(u => u.Name_User == user).ID;
+                var a = "";
+                string ad = _context.ADMIN_PAEs.FirstOrDefault(u => u.Id_User == idUser)?.Email ?? null;
+                string ma = _context.MANAGER_PAEs.FirstOrDefault(u => u.Id_User == idUser)?.Email ?? null;
+                string nut1 = _context.NUTRITIONITS_INTSs.FirstOrDefault(u => u.Id_User == idUser)?.Email ?? null;
+                string nut2 = _context.NUTRITIONITS_PAEs.FirstOrDefault(u => u.Id_User == idUser)?.Email ?? null;
+                string sec = _context.SECRETARY_INTSs.FirstOrDefault(u => u.Id_User == idUser)?.Email ?? null;
+
+                if (ad != null)
+                {
+                    a = _context.ADMIN_PAEs.FirstOrDefault(u => u.Id_User == idUser).Email;
+                }
+                if (ma != null)
+                {
+                    a = _context.MANAGER_PAEs.FirstOrDefault(u => u.Id_User == idUser).Email;
+                }
+                if (nut1 != null)
+                {
+                    a = _context.NUTRITIONITS_INTSs.FirstOrDefault(u => u.Id_User == idUser).Email;
+                }
+                if (nut2 != null)
+                {
+                    a = _context.NUTRITIONITS_PAEs.FirstOrDefault(u => u.Id_User == idUser).Email;
+                }
+                if (sec != null)
+                {
+                    a = _context.SECRETARY_INTSs.FirstOrDefault(u => u.Id_User == idUser).Email;
+                }
+
+                string conection = _configuration.GetConnectionString("Conn");
+                SqlConnection con = new SqlConnection(conection);
+                con.Open();
+                SqlCommand cmd = new SqlCommand("select * from USERS where Name_User = '" + user + "'", con);
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.HasRows == true)
+                {
+                    dr.Read();
+                    string nUser = dr["Name_User"].ToString();
+                    string pw = dr["Password"].ToString();
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine("El siguiente usuario a solicitado recuperar su contraseña:");
+                    sb.AppendLine(nUser);
+                    sb.AppendLine("Informacion: ");
+                    sb.AppendLine("Correo: " + a);
+                    sb.AppendLine("Contraseña: " + pw);
+                    SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+                    client.EnableSsl = true;
+                    client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = new NetworkCredential("soporterrscontroller274@gmail.com", "ouaxflcphlbdtnbr");//(Correo y Password carlitos)
+                    MailMessage msg = new MailMessage();
+                    msg.To.Add("soporterrscontroller274@gmail.com");
+                    msg.From = new MailAddress("shopping card..<soporterrscontroller274@gmail.com>");//<Carlitos en el video dice company que creo que es gmail pero no estoy seguro y emailId osea el mismo correo de linea 47 dentro de los dimantes minuto 19:20 del video>
+                    msg.Subject = "Your Password";
+                    msg.Body = sb.ToString();
+                    client.Send(msg);
+                    ViewBag.msg = "Solicitud de Recuperacion Enviada";
+                    return View();
+
+                }
+                else
+                {
+                    ViewBag.msg = "Usuario Invalido";
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.msg = "ERROR:" + ex.Message.ToString();
+                return View();
+
+            }
+        }
+
+        //Method that provides a way to cache the HTTP response generated by the "Error" action method for a specified period of time
+        [ResponseCache(Duration = (int)DiccionaryB.X, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View("Error!");

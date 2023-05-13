@@ -25,13 +25,17 @@ namespace RRSCONTROLLER.Controllers
             _context = context;
             _logger = logger;
         }
+
+        //Method to return the administrator home view
         [Authorize(Roles = "Admin Pae")]
         public IActionResult HomeAdministrator()
         {
             return View();
         }
 
-        public IActionResult Enviar()
+        //Method to return to the sendMenus view, the menus and their respective amounts
+        [Authorize(Roles = "Admin Pae")]
+        public IActionResult SendMenus()
         {
             var menu = _context.MENUS.ToList();
             var producList = menu.Select(p => new SelectListItem
@@ -48,10 +52,11 @@ namespace RRSCONTROLLER.Controllers
                 Text = q.Amount.ToString()
             }).ToList();
             ViewBag.Amount = iLList ?? new List<SelectListItem>();
+            ViewBag.zero = (int)DiccionaryB.X;
 
             return View();
         }
-
+        //Method used to exit the user from the RRSCONTROLLER application
         [Authorize(Roles = "Admin Pae")]
         public async Task<IActionResult> Exit()
         {
@@ -59,14 +64,14 @@ namespace RRSCONTROLLER.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        // GET: AdminPaeController/ProductRegister
+        //Method that returns to the ProductRegister view, the suppliers and units that are in the database and loads them in the combobox
         [Authorize(Roles = "Admin Pae")]
         public IActionResult ProductRegister()
         {
             var suppliers = _context.SUPPLIERS.ToList();
             var units = _context.UNITS.ToList();
 
-            // Mapear los proveedores a una lista de SelectListItem
+            // Map the providers to a SelectListItem list
             var suppliersList = suppliers.Select(p => new SelectListItem
             {
                 Value = p.ID.ToString(),
@@ -86,7 +91,7 @@ namespace RRSCONTROLLER.Controllers
             return View();
         }
 
-        // POST: AdminPaeController/Create
+        // Method used to save the product registered by the administrator in the database
         [Authorize(Roles = "Admin Pae")]
         [HttpPost]
         public async Task<IActionResult> ProductRegister(string name, string supplierId, string unitId)
@@ -123,16 +128,15 @@ namespace RRSCONTROLLER.Controllers
         }
 
 
-        // GET: AdminPaeController/ProductRegister
+        // Method used to load the roles of nutritionist and secretary from the DB to load it in the combobox of the UserRegister view
         [Authorize(Roles = "Admin Pae")]
         public IActionResult UserRegister()
         {
             var role = _context.ROLES.ToList();
             var inst = _context.INSTITUTIONS.ToList();
 
-            var filteredRoles = role.Where(r => r.Name_Role== "Nutritionist Institution" || r.Name_Role == "Secretary Institution");
+            var filteredRoles = role.Where(r => r.Name_Role== "Nutricionista Institucion" || r.Name_Role == "Secretaria Institucion");
 
-            // Mapear los proveedores a una lista de SelectListItem
             var roleList = filteredRoles.Select(p => new SelectListItem
             {
                 Value = p.ID.ToString(),
@@ -148,12 +152,12 @@ namespace RRSCONTROLLER.Controllers
             }).ToList();
 
             ViewBag.inst = instList ?? new List<SelectListItem>();
-            ViewBag.cero = (int)DiccionaryB.X;
+            ViewBag.zero = (int)DiccionaryB.X;
 
             return View();
         }
 
-        // POST: AdminPaeController/Create
+        // Method used to save in the database the users registered by the administrator, be it a nutritionist or a secretary
         [Authorize(Roles = "Admin Pae")]
         [HttpPost]
         public async Task<IActionResult> UserRegister(string name, string lastname, string adress, string document,
@@ -237,7 +241,7 @@ namespace RRSCONTROLLER.Controllers
           
         }
 
-
+        //Method that serves to load the requests of all the institutions so that the administrator approves them in the request view
         [Authorize(Roles = "Admin Pae")]
         public IActionResult Requests()
         {
@@ -251,7 +255,6 @@ namespace RRSCONTROLLER.Controllers
             var filterRequest = request.Where(r => r.Status == "RECIBIDO");
             var filterSend = send.Where(r => r.Status == "ENVIADO");
 
-            // Mapear los proveedores a una lista de SelectListItem
             var requestList = filterRequest.Select(p => new SelectListItem
             {
                 Value = p.Id_Nutritionits_Ints.ToString(),
@@ -298,7 +301,7 @@ namespace RRSCONTROLLER.Controllers
             return View();
         }
 
-        // GET: Tripulants/Details/5
+        // Method used to load in the send view, according to the request id, the menus requested by the institution
         [Authorize(Roles = "Admin Pae")]
         public async Task<IActionResult> Send(string id)
         {
@@ -321,11 +324,13 @@ namespace RRSCONTROLLER.Controllers
 
             ViewBag.selectFood = impList;
             ViewBag.zero = (int)DiccionaryB.X;
-            ViewBag.fecha = date;
+            ViewBag.date = date;
             ViewBag.idR = id;
 
             return View();
         }
+
+        //Method used to update the status of the shipment to delivered and save it in the DB
         [Authorize(Roles = "Admin Pae")]
         public async Task<IActionResult> Deliver(string id)
         {
@@ -360,6 +365,7 @@ namespace RRSCONTROLLER.Controllers
 
         }
 
+        //Method used to save in the database, send menus to the institution, or update the status of the application to not approved
         [Authorize(Roles = "Admin Pae")]
         [HttpPost]
         public async Task<IActionResult> Send(string question, string myText, string id)
@@ -430,9 +436,9 @@ namespace RRSCONTROLLER.Controllers
             
 
         }
-
+        //Method that provides a way to cache the HTTP response generated by the "Error" action method for a specified period of time
         [Authorize(Roles = "Admin Pae")]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [ResponseCache(Duration = (int)DiccionaryB.X, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

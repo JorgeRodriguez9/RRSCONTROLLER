@@ -26,13 +26,16 @@ namespace RRSCONTROLLER.Controllers
             _context = context;
             _logger = logger;
         }
-        [Authorize(Roles = "Nutritionist Pae")]
+
+        //Method used to return the start nutritionist pae view
+        [Authorize(Roles = "Nutricionista Pae")]
         public IActionResult HomeNutritionistPae()
         {
-
             return View();
         }
-        [Authorize(Roles = "Nutritionist Pae")]
+
+        //Method that serves to return the categories and foods brought from the database and show them in the create menu
+        [Authorize(Roles = "Nutricionista Pae")]
         public IActionResult CreateMenu()
         {
             
@@ -59,7 +62,8 @@ namespace RRSCONTROLLER.Controllers
 
         }
 
-        [Authorize(Roles = "Nutritionist Pae")]
+        //Method used to extract the menu data from the createmenu view and send them to the registermenu view
+        [Authorize(Roles = "Nutricionista Pae")]
         [HttpPost]
         public IActionResult CreateMenu(string category, string name, List<string> selectedFoods)
         {
@@ -72,13 +76,16 @@ namespace RRSCONTROLLER.Controllers
 
             return View("RegisterMenu");
         }
-        [Authorize(Roles = "Nutritionist Pae")]
+
+        //method used to return the registermenu view
+        [Authorize(Roles = "Nutricionista Pae")]
         public IActionResult RegisterMenu()
         {
-            
             return View();
         }
-        [Authorize(Roles = "Nutritionist Pae")]
+
+        //Method used to record the menu prepared by the nutritionist in the database
+        [Authorize(Roles = "Nutricionista Pae")]
         [HttpPost]
         public async Task<IActionResult> RegisterMenu(List<string> foods, string name, string category)
         {
@@ -166,7 +173,10 @@ namespace RRSCONTROLLER.Controllers
                 return RedirectToAction("CreateMenu");
             }
         }
-        [Authorize(Roles = "Nutritionist Pae")]
+
+
+        //Method used to display in the createmenu view the foods with their units offered by the RRSCONTROLLER application
+        [Authorize(Roles = "Nutricionista Pae")]
         public IActionResult CreateFood()
         {
            
@@ -189,7 +199,9 @@ namespace RRSCONTROLLER.Controllers
             ViewBag.units = unitsList;
             return View();
         }
-        [Authorize(Roles = "Nutritionist Pae")]
+
+        //Method that serves to attract the products chosen by the nutritionist and send them to registerfood
+        [Authorize(Roles = "Nutricionista Pae")]
         [HttpPost]
         public IActionResult CreateFood(string name, List<string> selectedFoods, List<string> amount4)
         {
@@ -212,13 +224,18 @@ namespace RRSCONTROLLER.Controllers
 
             return View("RegisterFood");
         }
+
+        //Method used to return the registerfood view, sending a zero to avoid hardcoding
+        [Authorize(Roles = "Nutricionista Pae")]
         public IActionResult RegisterFood()
         {
             ViewBag.zero = (int)DiccionaryB.X;
 
             return View();
         }
-        [Authorize(Roles = "Nutritionist Pae")]
+
+        //Method used to register the food in the database according to the products chosen by the nutritionist
+        [Authorize(Roles = "Nutricionista Pae")]
         [HttpPost]
         public async Task<IActionResult> RegisterFood(List<string> foods, List<string> amounts, List<string> units, string name)
         {
@@ -274,7 +291,7 @@ namespace RRSCONTROLLER.Controllers
 
                             var foodProduct = new FOOD_PRODUCT
                             {
-                                Amount = int.Parse(amounts[i]), // Aquí puedes establecer la cantidad seleccionada por el usuario
+                                Amount = int.Parse(amounts[i]), 
                                 Id_Food = _context.FOODS.FirstOrDefault(u => u.Name == name).ID,
                                 Id_Product = _context.PRODUCTS.FirstOrDefault(u => u.Name == foods[i]).ID,
                             };
@@ -309,7 +326,9 @@ namespace RRSCONTROLLER.Controllers
                 return RedirectToAction("CreateFood");
             }
         }
-        [Authorize(Roles = "Nutritionist Pae")]
+
+        //Method used to exit the user from the RRSCONTROLLER application
+        [Authorize(Roles = "Nutricionista Pae")]
         public async Task<IActionResult> Exit()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

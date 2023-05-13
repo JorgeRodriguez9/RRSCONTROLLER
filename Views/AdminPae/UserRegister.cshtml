@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "User Register";
+    ViewData["Title"] = "Registrar Usuario";
 }
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -75,7 +75,7 @@
                     <option value="">Seleccione una institucion</option>
                     @if (ViewBag.inst != null)
                     {
-                        @for (int i = ViewBag.cero; i < ViewBag.inst.Count; i++)
+                        @for (int i = ViewBag.zero; i < ViewBag.inst.Count; i++)
                         {
                             <option value="@ViewBag.inst[i].Text">@ViewBag.inst[i].Text</option>
                         }

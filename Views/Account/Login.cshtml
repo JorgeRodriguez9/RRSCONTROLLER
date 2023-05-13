@@ -1,20 +1,30 @@
 ﻿@model USER
 
-<form method="post" asp-action="Login" asp.asp-controller="Account">
-    <h1 class="h3 mb-3">Login</h1>
-    <div class="form-floating">
-        <input type="text" class="form-control" required asp-for="Name_User"/>
-        <label for="floatingInput">UserName</label>
+
+    <div class="text-center">
+        <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" style="width: 55%;" />
     </div>
-    <div class="form-floating">
-        <input type="password" class="form-control" required asp-for="Password" />
-        <label for="floatingPassword">Password</label>
-    </div>
-    <div class=" checkbox mb-3 ">
-        <label>
-            <input type="checkbox" asp-for="MaintainActive" /> Remember Login
-        </label>
-    </div>
-    <button type="submit" class="btn-lg btn-primary">Sign In</button>
-    <label class="alert-danger">@ViewBag.Error</label>
-</form>
+    <br />
+    <br />
+    <br />
+    <form method="post" asp-action="Login" asp.asp-controller="Account">
+        <h1 class="h3 mb-3">Login</h1>
+        <div class="form-floating">
+            <input type="text" class="form-control" required asp-for="Name_User"/>
+            <label for="floatingInput">UserName</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" required asp-for="Password" />
+            <label for="floatingPassword">Password</label>
+        </div>
+        <div class=" checkbox mb-3 ">
+            <label>
+                <input type="checkbox" asp-for="MaintainActive" /> Remember Login
+            </label>
+        </div>
+        <div class="form-group">
+        <a asp-action="RecoverPassword" asp-controller="Account">¿Olvido su Contraseña?</a>
+        </div>
+        <button type="submit" class="btn-lg btn-primary">Sign In</button>
+        <label class="alert-danger">@ViewBag.Error</label>
+    </form>

@@ -55,14 +55,14 @@
                             <input type="checkbox" name="selectedFoods" value="@ViewBag.food[i].Text" onclick="toggleAmount(this)">
                             <span>Select</span>
                         </label>
-                        <input type="text" class="btn btn-light mx-auto position-left btn-disabledNane" id="nombre" name="nombre" value="@ViewBag.food[i].Text" readonly />
+                        <input type="text" class="btn btn-light mx-auto position-left btn-disabledNane" id="food" name="food" value="@ViewBag.food[i].Text" readonly />
                     </div>
                 </div>
             }
         </div>
         <div class="row">
             <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-light" name="registerMenuButton">REGISTRAR MENU</button>
+                <button type="submit" class="btn btn-primary" name="registerMenuButton">REGISTRAR MENU</button>
             </div>
         </div>
     </form>
