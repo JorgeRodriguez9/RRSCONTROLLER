@@ -216,7 +216,7 @@ body {
 }
 
 .MenuD {
-    font-size: 30px;
+    font-size: 20px;
 }
 
 .marginBut {
@@ -309,13 +309,13 @@ body {
     color: #dc720d
 }
 
-#solicitud-container {
+#request-container {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     height: 40%;
     position: absolute;
-    top: 30px; /* ajusta la altura según tu diseño */
+    top: 30px; 
     right: 190px;
     font-size: 40px;
     font-weight: bold;
@@ -348,7 +348,7 @@ body {
     -webkit-appearance: none;
     -moz-appearance: textfield;
     appearance: textfield;
-    margin-left: 180px; /* ajusta este valor según sea necesario */
+    margin-left: 180px; 
 }
 
 .label-container {
@@ -374,8 +374,8 @@ body {
     margin-left: 720px;
 }
 .table-container {
-    margin-left: auto; /* centra horizontalmente el contenedor */
-    margin-right: auto; /* centra horizontalmente el contenedor */
+    margin-left: auto; 
+    margin-right: auto; 
 
 }
 .table-style {
@@ -389,27 +389,35 @@ body {
     border: 1px solid black;
 }
 .table-style th.first-column {
-    background-color: #62b4f1; /* establece el fondo de la primera columna */
-    text-align: center; /* centra el texto en la primera columna */
+    background-color: #62b4f1; /* sets the background of the first column */
+    text-align: center;
 }
-.solicitud-titulo {
+.request-title {
     color: red;
 }
 
 .box-Report {
-    border: 1px solid black;
-    width: 60%;
-    padding: 10px;
-    margin-left: 10px;
-    margin-top: 30px;
+    border: 1px solid white;
+
 }
 
 .border-boxInfo {
+    border: 1px solid white;
+    
+}
+
+.request-container {
+    margin-left: 50rem;
+    margin-top: -20rem;
+    font-size: 45px;
+}
+
+#fixed-section {
+    position: fixed;
+    z-index: 9999;
+}
+.my-custom-container {
+    margin: 20px;
     border: 1px solid black;
-    padding: 10px;
-    margin-top: -150px;
-    width: 30%;
-    margin-left: 180px;
-    height: 350px;
-    padding: 10px
+    margin-left: -60px;
 }

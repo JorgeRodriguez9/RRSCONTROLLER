@@ -1,53 +1,56 @@
 ﻿
 
+<div class="text-center">
+    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" style="width: 55%;" />
+</div>
+
 <div class="top_Title">
 
     @{
-        ViewData["Title"] = "Reporte Institucion";
+        ViewData["Title"] = "Evaluacion";
     }
 
 </div>
 
 <!--<div class = "text-white">-->
-<h3>@ViewData["Title"] </h3>
+<center><h1>@ViewData["Title"] </h1></center>
 <!--</div>-->
 
-<div class="text-center">
-    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" />
-</div>
 
-<div class="container-fluid no-padding-left marginE box-Report">
-    <div class="row row-custom">
-        <div class="col-md-6 col-custom align-items-center d-flex flex-column box-column" id="checkbox-container">
-            <div class="MenuD text-center header-row">Menu</div>
-            <hr>
-            @for (int i = 0; i < ViewBag.Menu.Count; i++)
-            {
-                <div class="MenuD text-center">@ViewBag.Menu[i].Text</div>
-                <hr>
-            }
-        </div>
-        <div class="col-md-6 col-custom align-items-center d-flex flex-column box-column" id="checkbox-container">
-            <div class="MenuD text-center header-row">Amount</div>
-            <hr>
-            @for (int i = 0; i < ViewBag.Amount.Count; i++)
-            {
-                <div class="MenuD text-center">@ViewBag.Amount[i].Text</div>
-                <hr>
-            }
-        </div>
-    </div>
-    
-</div>
+<br />
+<br />
+@if (ViewBag.Amounts != null && ViewBag.Menu != null && ViewBag.rec != null && ViewBag.state != null && ViewBag.quan != null && ViewBag.date != null && ViewBag.zero != null){
 <div class="row">
-    <div class="col-md-6">
-        <!-- Aquí va el código de la tabla -->
+     <div class="col-md-8 box-Report">
+        <div class="container my-custom-container">
+            <div class="row">
+                <div class="col-md-1 col-custom align-items-center d-flex flex-column box-column" id="checkbox-container">
+                    <div class="MenuD text-center header-row">Menu</div>
+                    <hr>
+                        @for (int i = ViewBag.zero; i < ViewBag.Menu.Count; i++)
+                    {
+                        <div class="MenuD text-center">@ViewBag.Menu[i]</div>
+                        <hr>
+                    }
+                </div>
+                <div class="col-md-1 col-custom align-items-center d-flex flex-column box-column" id="checkbox-container">
+                    <div class="MenuD text-center header-row">Cantidad</div>
+                    <hr>
+                        @for (int i = ViewBag.zero; i < ViewBag.Amounts.Count; i++)
+                    {
+                        <div class="MenuD text-center">@ViewBag.Amounts[i]</div>
+                        <hr>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-6" id="request-container">
-        <p>Evaluacion</p>
-    </div>
-    <div class="border-boxInfo">
+    <div class="col-md-4 border-boxInfo">
         <label for="info">Información:</label>
-        <input type="text" id="info" name="info" value="@Model.Informacion" readonly />
+        <h5>¿EL PEDIDO FUE RECIBIDO? @ViewBag.rec</h5>
+        <h5>ESTADO DE LOS PRODUCTOS: @ViewBag.state</h5>
+        <h5>¿CANTIDAD CORRECTA? @ViewBag.quan</h5>
+        <h5>FECHA DE RECIBIDO: @ViewBag.date</h5>
     </div>
 </div>
+}

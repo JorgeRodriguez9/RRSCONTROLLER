@@ -26,12 +26,8 @@ namespace RRS_Controller.Controllers
             _logger = logger;
         }
 
-        // GET: NutritionistInstController
-        public ActionResult Index()
-        {
-            return View();
-        }
-        [Authorize(Roles = "Nutritionist Institution")]
+        //Method used to load the different food categories in the combobox of the menus view
+        [Authorize(Roles = "Nutricionista Institucion")]
         public ActionResult Menus()
         {
             var cate = _context.CATEGORYS.ToList();
@@ -45,7 +41,8 @@ namespace RRS_Controller.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Nutritionist Institution")]
+        //Method used to receive the category and the different menus chosen by the nutritionist and reflect them in the RegisterRequest view
+        [Authorize(Roles = "Nutricionista Institucion")]
         [HttpPost]
         public ActionResult Menus(string categoryId, List<string> selectedMenus)
         {
@@ -57,15 +54,18 @@ namespace RRS_Controller.Controllers
 
             return View("RegisterRequest");
         }
-        [Authorize(Roles = "Nutritionist Institution")]
+
+        //Method used to display the RegisterRequest view
+        [Authorize(Roles = "Nutricionista Institucion")]
         public IActionResult RegisterRequest()
         {
             return View();
         }
-        
-        [Authorize(Roles = "Nutritionist Institution")]
+
+        //Method used to record the request made by the nutritionist in the database
+        [Authorize(Roles = "Nutricionista Institucion")]
         [HttpPost]
-        public async Task<IActionResult> RegisterRequest(List<string> quantity, List<string> menus, string fecha)
+        public async Task<IActionResult> RegisterRequest(List<string> quantity, List<string> menus, string date)
         {
             TempData.Remove("SuccessMessageR");
             TempData.Remove("ErrorR");
@@ -77,7 +77,7 @@ namespace RRS_Controller.Controllers
                 var nutritionistInst = _context.NUTRITIONITS_INTSs.FirstOrDefault(p => p.Id_User == user).ID;
 
 
-                if (quantity != null && menus != null && fecha != null)
+                if (quantity != null && menus != null && date != null)
                 {
 
                     for (int i = (int)DiccionaryB.X; i < menus.Count; i++)
@@ -105,18 +105,18 @@ namespace RRS_Controller.Controllers
                         {
                             Date = DateTime.Now,
                             Status = "RECIBIDO",
-                            Desired_Delivery_Date = DateTime.ParseExact(fecha, "d-M-yyyy", CultureInfo.InvariantCulture),
+                            Desired_Delivery_Date = DateTime.ParseExact(date, "d-M-yyyy", CultureInfo.InvariantCulture),
                             Id_Nutritionits_Ints = nutritionistInst
                         };
 
                         _context.REQUESTS.Add(request);
                         await _context.SaveChangesAsync();
 
-                        var ultimoProducto = _context.REQUESTS.OrderByDescending(p => p.ID).FirstOrDefault();
+                        var lastProduct = _context.REQUESTS.OrderByDescending(p => p.ID).FirstOrDefault();
 
-                        if (ultimoProducto != null)
+                        if (lastProduct != null)
                         {
-                            var id = ultimoProducto.ID;
+                            var id = lastProduct.ID;
 
                             for (int i = (int)DiccionaryB.X; i < menus.Count; i++)
                             {
@@ -164,14 +164,27 @@ namespace RRS_Controller.Controllers
                 return RedirectToAction("Menus");
             }
         }
-        
 
+        //Method used to return the home view of the nutritionist
 
-        [Authorize(Roles = "Nutritionist Institution")]
+        [Authorize(Roles = "Nutricionista Institucion")]
         public IActionResult HomeNutritionistINST()
         {
+
+            string userName = HttpContext.Session.GetString("UserName");
+            var user = _context.USERS.FirstOrDefault(p => p.Name_User == userName).ID;
+            var nut = _context.NUTRITIONITS_INTSs.FirstOrDefault(p => p.Id_User == user).Id_Institution;
+            var inst = _context.INSTITUTIONS.FirstOrDefault(p => p.ID == nut).Name;
+
+            string imp = "Institucion: " + inst;
+
+            ViewBag.inst = imp;
+
             return View();
         }
+
+        //Method used to show the different foods and products to the nutritionist
+        [Authorize(Roles = "Nutricionista Institucion")]
         [HttpPost]
         public IActionResult MyAction(string text, string id)
         {
@@ -187,7 +200,6 @@ namespace RRS_Controller.Controllers
 
             var filteredRoles = mfood.Where(r => r.Id_Menu == menu);
 
-            // Mapear los proveedores a una lista de SelectListItem
             var roleList = filteredRoles.Select(p => new SelectListItem
             {
                 Value = p.Id_Food.ToString()
@@ -231,6 +243,8 @@ namespace RRS_Controller.Controllers
 
         }
 
+        //Method used to obtain all the different menus provided by the RRSCONTROLLER application
+        [Authorize(Roles = "Nutricionista Institucion")]
         [HttpPost]
         public IActionResult GetMenu(string menuCategory)
         {
@@ -247,7 +261,8 @@ namespace RRS_Controller.Controllers
             return PartialView("_MenuInformation");
         }
 
-        [Authorize(Roles = "Nutritionist Institution")]
+        //Method used to exit the user from the RRSCONTROLLER application
+        [Authorize(Roles = "Nutricionista Institucion")]
         public async Task<IActionResult> Exit()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

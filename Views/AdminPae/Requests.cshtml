@@ -20,41 +20,44 @@
 <br />
 <center>
 <div class="table-container">
-    <table class="table-style">
-        <thead>
-            <tr>
-                <th class="first-column">SOLICITUDES</th>
-                <th class="first-column">ACCION</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (ViewBag.request != null && ViewBag.c != null)
+        @if (ViewBag.request.Count != ViewBag.c || ViewBag.sd.Count != ViewBag.c)
             {
-                @for (int i = ViewBag.c; i < ViewBag.request.Count; i++)
-                {
+            <table class="table-style">
+                <thead>
                     <tr>
-                        <td>@ViewBag.request[i]</td>
-                        <td>
-                             <center><a asp-action="Send" asp-route-id="@ViewBag.ID[i].Value">VER</a></center>
-                        </td>
+                        <th class="first-column">SOLICITUDES</th>
+                        <th class="first-column">ACCION</th>
                     </tr>
-                }
-            }
-            @if (ViewBag.sd != null && ViewBag.c != null)
-            {
-               @for (int i = ViewBag.c; i < ViewBag.sd.Count; i++)
-                {
-                    <tr>
-                        <td>@ViewBag.sd[i]</td>
-                        <td>
-                            ENVIADO
-                            <a asp-action="Deliver" asp-route-id="@ViewBag.idS[i].Value"> NOTIFICAR ENTREGA</a>
-                        </td>
-                    </tr>
-                }
-            }
-            </tbody>
-    </table>
+                </thead>
+                <tbody>
+
+                    @for (int i = ViewBag.c; i < ViewBag.request.Count; i++)
+                    {
+                        <tr>
+                            <td>@ViewBag.request[i]</td>
+                            <td>
+                                <center><a asp-action="Send" asp-route-id="@ViewBag.ID[i].Value">VER</a></center>
+                            </td>
+                        </tr>
+                    }
+
+                    @if (ViewBag.sd != null && ViewBag.c != null)
+                    {
+                        @for (int i = ViewBag.c; i < ViewBag.sd.Count; i++)
+                        {
+                            <tr>
+                                <td>@ViewBag.sd[i]</td>
+                                <td>
+                                    ENVIADO
+                                    <a asp-action="Deliver" asp-route-id="@ViewBag.idS[i].Value"> NOTIFICAR ENTREGA</a>
+                                </td>
+                            </tr>
+                        }
+
+                    }
+                </tbody>
+           </table>
+    }
 </div>
 </center>
 

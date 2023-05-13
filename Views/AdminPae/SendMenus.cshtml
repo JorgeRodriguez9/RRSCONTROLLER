@@ -21,7 +21,7 @@
         <div class="col-md-6 col-custom align-items-center d-flex flex-column box-column" id="checkbox-container">
             <div class="MenuD text-center header-row">Menu</div>
             <hr>
-            @for (int i = 0; i < ViewBag.Menu.Count; i++)
+            @for (int i = ViewBag.zero; i < ViewBag.Menu.Count; i++)
             {
                 <div class="MenuD text-center">@ViewBag.Menu[i].Text</div>
                 <hr>
@@ -30,7 +30,7 @@
         <div class="col-md-6 col-custom align-items-center d-flex flex-column box-column" id="checkbox-container">
             <div class="MenuD text-center header-row">Amount</div>
             <hr>
-            @for (int i = 0; i < ViewBag.Amount.Count; i++)
+            @for (int i = ViewBag.zero; i < ViewBag.Amount.Count; i++)
             {
                 <div class="MenuD text-center">@ViewBag.Amount[i].Text</div>
                 <hr>
@@ -38,10 +38,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6">
-            <!-- Aquí va el código de la tabla -->
-        </div>
-        <div class="col-md-6" id="solicitud-container">
+        <div class="col-md-6" id="request-container">
             <p>Solicitud</p>
         </div>
     </div>

@@ -1,37 +1,57 @@
 ﻿
-
-<div class="top_Title">
-
-    @{
-        ViewData["Title"] = "Order Status";
-    }
-
-</div>
-
-<!--<div class = "text-white">-->
-<h3>@ViewData["Title"] </h3>
-<!--</div>-->
-
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="Manager" asp-action="HomeManagerPAE">Volver</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+</header>
 <div class="text-center">
-    <img src="~/images/RRS-Controller.jpeg" alt="My image" />
+    <img src="~/images/RRS-Controller.jpeg" alt="Mi imagen" style="width: 55%;" />
 </div>
+<br />
+<center>
+    @if (ViewBag.Print != null && ViewBag.c != null && ViewBag.FList != null)
+     {
+        <div class="table-container">
+            <table class="table-style">
+                <thead>
+                    <tr>
+                        <th class="first-column">ENVIOS</th>
+                        <th class="first-column">INFORMES</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-<table>
-    <tr class="tableTitle">
-        <th>Requests</th>
-        <th>State</th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <a class="btn btn-primary btn-sm" href="/Models/Edit?id=">View</a>
-            <td>@item.Value1</td>
-            <td>@item.Value2</td>
-        </tr>
+                    @for (int i = ViewBag.Print.Count - ViewBag.u; i >= ViewBag.c; i--)
+                        {
+                            <tr>
+                                <td>@ViewBag.Print[i]</td>
+                                <td>
+                                    <center><a asp-action="InstitutionReport" asp-route-id="@ViewBag.FList[i].Value">VER</a></center>
+                                </td>
+                            </tr>
+                        }
+               
+                </tbody>
+            </table>
+        </div>
     }
-</table>
+</center>
 
-
+<script>
+    window.onload = function () {
+        if ('@TempData.ContainsKey("SuccessMessageS")' == "True") {
+            alert('@TempData["SuccessMessageS"]');
+        }
+        if ('@TempData.ContainsKey("ErrorS")' == "True") {
+            alert('@TempData["ErrorS"]');
+        }
+    };
+</script>
               
           
