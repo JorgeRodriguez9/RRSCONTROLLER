@@ -12,8 +12,8 @@ using RRSCONTROLLER.DAL;
 namespace RRSCONTROLLER.Migrations
 {
     [DbContext(typeof(RSSCONTROLLERContext))]
-    [Migration("20230508013153_migracion")]
-    partial class migracion
+    [Migration("20230513205224_migracionOfficial")]
+    partial class migracionOfficial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -146,6 +146,9 @@ namespace RRSCONTROLLER.Migrations
 
                     b.HasIndex("Id_Nutritionits_Pae");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("FOODS");
                 });
 
@@ -277,6 +280,9 @@ namespace RRSCONTROLLER.Migrations
                     b.HasIndex("Id_Category");
 
                     b.HasIndex("Id_Nutritionits_Pae");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("MENUS");
                 });
@@ -427,6 +433,9 @@ namespace RRSCONTROLLER.Migrations
                     b.HasIndex("Id_Supplier");
 
                     b.HasIndex("Id_Unit");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("PRODUCTS");
                 });

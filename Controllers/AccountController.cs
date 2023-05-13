@@ -85,7 +85,7 @@ namespace RRSCONTROLLER.Controllers
 
                 using (SqlConnection conn = new(conection))
                 {
-                    using (SqlCommand cmd = new("sp_validar_usuario", conn))
+                    using (SqlCommand cmd = new("sp_validate_user", conn))
                     {
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         cmd.Parameters.Add("@Name_User", System.Data.SqlDbType.VarChar).Value = u.Name_User;
