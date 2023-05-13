@@ -224,7 +224,7 @@ namespace RRSCONTROLLER.Controllers
                     client.EnableSsl = true;
                     client.DeliveryMethod = SmtpDeliveryMethod.Network;
                     client.UseDefaultCredentials = false;
-                    client.Credentials = new NetworkCredential("soporterrscontroller274@gmail.com", "ouaxflcphlbdtnbr");//(Correo y Password carlitos)
+                    client.Credentials = new NetworkCredential("soporterrscontroller274@gmail.com", "ygwwplxqhfhrltqc");//(Correo y Password carlitos)
                     MailMessage msg = new MailMessage();
                     msg.To.Add("soporterrscontroller274@gmail.com");
                     msg.From = new MailAddress("shopping card..<soporterrscontroller274@gmail.com>");//<Carlitos en el video dice company que creo que es gmail pero no estoy seguro y emailId osea el mismo correo de linea 47 dentro de los dimantes minuto 19:20 del video>
